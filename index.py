@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, render_template_string
 import os
 
 app = Flask(__name__)
@@ -19,9 +19,9 @@ def login():
         email = request.form['email']
         password = request.form['password']
         if email in users and users[email] == password:
-            return jsonify({'message': 'ログインに成功しました！'})
+            return render_template_string('<h1>ログインに成功しました！</h1>')
         else:
-            return jsonify({'message': '無効なメールアドレスまたはパスワード'}), 401
+            return render_template_string('<h1>無効なメールアドレスまたはパスワード</h1>'), 401
     return render_template_string('''
         <h1>ログイン</h1>
         <form method="POST">
@@ -41,9 +41,9 @@ def signup():
         password = request.form['password']
         if email not in users:
             users[email] = password
-            return jsonify({'message': '新規登録に成功しました！'})
+            return render_template_string('<h1>新規登録に成功しました！</h1>')
         else:
-            return jsonify({'message': 'このメールアドレスは既に登録されています'}), 400
+            return render_template_string('<h1>このメールアドレスは既に登録されています</h1>'), 400
     return render_template_string('''
         <h1>新規登録</h1>
         <form method="POST">
