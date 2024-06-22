@@ -1,9 +1,37 @@
 from flask import Flask, request, render_template_string
 import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 
-users = {}
+# データベース接続
+def get_db_connection():
+    conn = psycopg2.connect(
+        host=os.environ['DB_HOST'],
+        database=os.environ['DB_NAME'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD']
+    )
+    return conn
+
+# usersテーブルの作成（存在しない場合）
+def create_table():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(50) NOT NULL,
+            email VARCHAR(50) NOT NULL UNIQUE,
+            password VARCHAR(50) NOT NULL
+        )
+    ''')
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+create_table()
 
 @app.route('/')
 def home():
@@ -18,7 +46,13 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        if email in users and users[email] == password:
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password))
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        if user:
             return render_template_string('<h1>ログインに成功しました！</h1>')
         else:
             return render_template_string('<h1>無効なメールアドレスまたはパスワード</h1>'), 401
@@ -39,10 +73,18 @@ def signup():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        if email not in users:
-            users[email] = password
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute('INSERT INTO users (username, email, password) VALUES (%s, %s, %s)', (username, email, password))
+            conn.commit()
+            cursor.close()
+            conn.close()
             return render_template_string('<h1>新規登録に成功しました！</h1>')
-        else:
+        except psycopg2.IntegrityError:
+            conn.rollback()
+            cursor.close()
+            conn.close()
             return render_template_string('<h1>このメールアドレスは既に登録されています</h1>'), 400
     return render_template_string('''
         <h1>新規登録</h1>
