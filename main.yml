@@ -1,0 +1,27 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up environment
+      run: |
+        echo "${{ secrets.ENV_FILE }}" > .env
+        echo "${{ secrets.GCS_CREDENTIALS }}" > synapse001-428967a1bbee.json
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Deploy application
+      run: |
+        # デプロイコマンドやスクリプトをここに記述
