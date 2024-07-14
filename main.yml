@@ -18,6 +18,7 @@ jobs:
         echo "${{ secrets.ENV_FILE }}" > .env
         echo "${{ secrets.GCS_CREDENTIALS }}" > synapse001-428967a1bbee.json
         export GOOGLE_CLOUD_KEYFILE=synapse001-428967a1bbee.json
+        source .env
 
     - name: Install dependencies
       run: pip install -r requirements.txt
