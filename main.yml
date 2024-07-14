@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Deploy to Render
 
 on:
   push:
@@ -19,9 +19,11 @@ jobs:
         echo "${{ secrets.GCS_CREDENTIALS }}" > synapse001-428967a1bbee.json
 
     - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+      run: pip install -r requirements.txt
 
-    - name: Deploy application
+    - name: Deploy to Render
       run: |
-        # デプロイコマンドやスクリプトをここに記述
+        curl -X POST -H "Accept: application/vnd.render+json" \
+        -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+        -d '{}' \
+        https://api.render.com/v1/services/srv-cppce988fa8c739d89cg/deploys

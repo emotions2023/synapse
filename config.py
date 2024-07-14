@@ -9,4 +9,3 @@ class Config:
     GOOGLE_CLOUD_KEYFILE = os.getenv('GOOGLE_CLOUD_KEYFILE')
     GOOGLE_CLOUD_BUCKET = os.getenv('GOOGLE_CLOUD_BUCKET')
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-
