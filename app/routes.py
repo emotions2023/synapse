@@ -144,7 +144,7 @@ def create_profile():
             image_url = upload_image_to_gcs(image_data)
             if image_url is None:
                 return jsonify({'error': 'Failed to upload image to GCS'}), 500
-        except Exception as e
+        except Exception as e:
             return jsonify({'error': f'Image Upload Failed: {str(e)}'}), 500
         
         try:
