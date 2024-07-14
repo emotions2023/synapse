@@ -1,7 +1,9 @@
 import os
 from app import create_app
 
-print("DATABASE_URL:", os.getenv('DATABASE_URL'))  # デバッグ用に接続文字列を出力
+# デバッグ用に環境変数を出力
+print("DATABASE_URL:", os.getenv('DATABASE_URL'))
+print("GOOGLE_CLOUD_KEYFILE:", os.getenv('GOOGLE_CLOUD_KEYFILE'))
 
 app = create_app()
 

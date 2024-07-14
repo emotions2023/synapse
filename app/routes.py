@@ -13,8 +13,12 @@ import psycopg2
 routes = Blueprint('routes', __name__)
 
 # Google Cloud Storageの設定
-storage_client = storage.Client.from_service_account_json(os.getenv('GOOGLE_CLOUD_KEYFILE'))
+# storage_client = storage.Client.from_service_account_json(os.getenv('GOOGLE_CLOUD_KEYFILE'))
+# GOOGLE_CLOUD_KEYFILE 環境変数からJSONファイルパスを取得
+storage_client = os.getenv('GOOGLE_CLOUD_KEYFILE', 'synapse001-428967a1bbee.json')
 bucket_name = os.getenv('GOOGLE_CLOUD_BUCKET')
+
+
 
 # OpenAIの設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
