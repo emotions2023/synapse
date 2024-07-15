@@ -33,7 +33,6 @@ class Config:
 # データベース接続情報を出力（パスワードは隠蔽）
 def print_db_config():
     db_config = Config.get_db_config()
-    print("Database connection parameters:")
     for key, value in db_config.items():
         if key != 'password':
             print(f"{key}: {value}")

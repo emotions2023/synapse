@@ -19,12 +19,6 @@ def load_env_with_encoding(dotenv_path):
             os.environ[key] = value
 
 load_env_with_encoding(dotenv_path)
-
-# デバッグ用に環境変数を出力
-print("GOOGLE_CLOUD_KEYFILE:", os.getenv('GOOGLE_CLOUD_KEYFILE'))
-print("OPENAI_API_KEY:", os.getenv('OPENAI_API_KEY'))
-print("GOOGLE_CLOUD_BUCKET:", os.getenv('GOOGLE_CLOUD_BUCKET'))
-
 app = create_app()
 
 if __name__ == '__main__':
