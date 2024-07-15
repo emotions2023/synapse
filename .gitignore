@@ -1,0 +1,5 @@
+# 環境変数ファイル
+.env
+
+# Google Cloud Service Account JSONキー
+synapse001-45cd33ace705.json

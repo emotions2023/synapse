@@ -13,8 +13,11 @@ import psycopg2
 routes = Blueprint('routes', __name__)
 
 # GOOGLE_CLOUD_KEYFILE 環境変数からJSONファイルパスを取得
-storage_client = os.getenv('GOOGLE_CLOUD_KEYFILE', 'synapse001-428967a1bbee.json')
+google_cloud_keyfile = os.getenv('GOOGLE_CLOUD_KEYFILE', 'synapse001-45cd33ace705.json')
 bucket_name = os.getenv('GOOGLE_CLOUD_BUCKET')
+
+# Google Cloud Storageクライアントを初期化
+storage_client = storage.Client.from_service_account_json(google_cloud_keyfile)
 
 # OpenAI APIキーを取得
 api_key = os.getenv('OPENAI_API_KEY')
@@ -128,13 +131,11 @@ def create_profile():
         year_of_birth = century + year_of_century
         user_id = 1  # ここではテスト用にハードコーディング
         
-        user_content = f"""
-        {{
-            "name": "{name}",
-            "category": "{category}",
-            "birth": "{year_of_birth}"
-        }}
-        """
+        user_content = {
+            "name": name,
+            "category": category,
+            "birth": year_of_birth
+        }
         
         try:
             image_data = base64.b64encode(image.read()).decode('utf-8')
@@ -145,31 +146,41 @@ def create_profile():
             return jsonify({'error': f'Image Upload Failed: {str(e)}'}), 500
         
         try:
+            messages=[
+            {
+                "role": "system",
+                "content": (
+                    "あなたは架空の歴史的人物のみを扱う百科事典です。以下の人物紹介を、"
+                    "Wikipediaのような形式で詳細に作成してください。ユーザーが提供する"
+                    "「名前」「カテゴリー」「生誕年」に従い、その他の詳細を創作してください。"
+                    "出力はjson形式とし、各フィールドには以下の情報を含めてください。"
+                    "- name: 名前\n"
+                    "- birth: 生年月日\n"
+                    "- death: 死亡日\n"
+                    "- cemetery: 墓地\n"
+                    "- business: 職業\n"
+                    "- language: 言語\n"
+                    "- nationality: 国籍\n"
+                    "- education: 教育\n"
+                    "- lastEducation: 最終学歴\n"
+                    "- periodOfActivity: 活動期間\n"
+                    "- genre: ジャンル\n"
+                    "- upbringing: 生い立ち（1000〜2000文字）\n"
+                    "- deathDetails: 死去詳細（1000〜2000文字）\n"
+                    "- others: その他の情報（1000〜2000文字）\n"
+                )
+            },
+            {"role": "user", "content": json.dumps(user_content)}
+        ]
+            # デバッグ: リクエストの内容を出力
+            print("OpenAI API request messages:", json.dumps(messages, ensure_ascii=False, indent=2))
+        
             response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    response_format={"type": "json_object"},
-                    messages=[
-                    {
-                        "role": "system",
-                        "content": """あなたは人物の歴史を網羅している百科事典です。この百科事典には史実とは違う、架空の歴史的人物のみ登場します。紀元前2000年～現代までの中で、何かを成し遂げ、死没していった人ばかりです。そんな架空の人物の、歴史をWikipediaのように網羅的に人物紹介をしてください。ただし、「名前」「カテゴリー」「生誕年」はユーザーが決めた内容に従ってください。名前、生年月日、ジャンルはユーザーが入力した内容を記載してください。それ以外はあなたが創作してください。生い立ちには、人物の詳細な生い立ちを300～500文字で表示してください。死去詳細には、人物の死因や死亡場所など詳細に300～500文字で表示してください。その他には、人物の生涯を詳細に300文字～500文字でjson形式で表示してください。下記はjson形式の出力方法です。
-                        "name": "名前",
-                        "birth": "生年月日",
-                        "death": "死亡日",
-                        "cemetery": "墓地",
-                        "business": "職業",
-                        "language": "言語",
-                        "nationality": "国籍",
-                        "education": "教育",
-                        "lastEducation": "最終学歴",
-                        "periodOfActivity": "活動期間",
-                        "genre": "ジャンル",
-                        "upbringing": "生い立ち",
-                        "deathDetails": "死去詳細",
-                        "others": "その他の情報"名前: ${name}、カテゴリー: ${category}、生誕: ${yearOfBirth}年`
-                    """},
-                    {"role": "user", "content": user_content}
-                ]
+                model="gpt-3.5-turbo",
+                messages=messages,
+                max_tokens=2048
             )
+            
         except Exception as e:
             return jsonify({'error': f'OpenAI API Call Failed: {str(e)}'}), 500
         
@@ -181,7 +192,12 @@ def create_profile():
             print("profile_data = " ,profile_data)
             profile_json = json.loads(profile_data)
             
-        
+            # 欠けているキーにデフォルト値を設定
+            required_keys = ["name", "birth", "death", "cemetery", "business", "language", "nationality", "education", "lastEducation", "periodOfActivity", "genre", "upbringing", "deathDetails", "others"]
+            for key in required_keys:
+                if key not in profile_json:
+                    profile_json[key] = "不明"
+            
         except Exception as e:
             return jsonify({'error': f'Response Processing Failed: {str(e)}'}), 500
         

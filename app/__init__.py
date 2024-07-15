@@ -1,17 +1,32 @@
 from flask import Flask
-from config import Config
 from flask_sqlalchemy import SQLAlchemy
+from config import Config, get_db_connection, print_db_config
+import os
 
 db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    db.init_app(app)
 
-    with app.app_context():
-        from . import routes, models
-        app.register_blueprint(routes.routes)  # ここでBlueprintを登録
-        db.create_all()
+    # デバッグ用に環境変数を出力
+    print(f"GOOGLE_CLOUD_KEYFILE: {os.getenv('GOOGLE_CLOUD_KEYFILE')}")
+    print(f"GOOGLE_CLOUD_BUCKET: {os.getenv('GOOGLE_CLOUD_BUCKET')}")
+    print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
+
+    # データベース接続情報を出力
+    print_db_config()
+
+    # データベースに接続
+    conn = get_db_connection()
+    if conn:
+        # SQLAlchemyのエンジンを作成
+        app.config['SQLALCHEMY_DATABASE_URI'] = Config.get_sqlalchemy_database_uri()
+        db.init_app(app)
+
+        with app.app_context():
+            from . import routes, models
+            app.register_blueprint(routes.routes)  # ここでBlueprintを登録
+            db.create_all()
 
     return app
