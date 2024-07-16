@@ -1,10 +1,6 @@
 import os
 import psycopg2
 import traceback
-from dotenv import load_dotenv, find_dotenv
-
-# .envファイルを読み込む
-load_dotenv(find_dotenv())
 
 # Configクラスの定義
 class Config:
