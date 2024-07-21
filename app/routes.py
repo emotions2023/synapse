@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template, url_for
+from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template
 from . import db
 from .models import Profile
 from google.cloud import storage

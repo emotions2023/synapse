@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="login-container p-8 rounded-lg w-full max-w-sm">
+        <div class="login-header flex items-center justify-center mb-6">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo">
+            <h1 class="ml-2">Spotify</h1>
+        </div>
+        <div class="flex justify-center mb-4">
+            <span class="mr-4 cursor-pointer border-b-2 border-green-500">SIGN IN</span>
+            <span class="cursor-pointer text-gray-500">SIGN UP</span>
+        </div>
+        <form>
+            <div class="mb-4">
+                <input type="text" placeholder="Username" class="login-input w-full p-3">
+            </div>
+            <div class="mb-4">
+                <input type="password" placeholder="Password" class="login-input w-full p-3">
+            </div>
+            <div class="flex items-center mb-4">
+                <input type="checkbox" id="stay-signed-in" class="mr-2">
+                <label for="stay-signed-in" class="text-gray-700">stay signed in</label>
+            </div>
+            <button type="submit" class="login-button w-full p-3 rounded-lg">SIGN IN</button>
+        </form>
+        <div class="text-center mt-4">
+            <a href="#" class="text-gray-500">Forgot Password?</a>
+        </div>
+    </div>
+</body>
+</html>
