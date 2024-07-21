@@ -46,25 +46,29 @@ def home():
 
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        conn = db.engine.raw_connection()
-        if conn is not None:
-            cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password))
-            user = cursor.fetchone()
-            cursor.close()
-            conn.close()
-            if user:
-                return redirect('/createProfile')
+    try:
+        if request.method == 'POST':
+            email = request.form['email']
+            password = request.form['password']
+            conn = db.engine.raw_connection()
+            if conn is not None:
+                cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+                cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password))
+                user = cursor.fetchone()
+                cursor.close()
+                conn.close()
+                if user:
+                    return redirect('/createProfile')
+                else:
+                    error = '無効なメールアドレスまたはパスワード'
+                    return render_template('login.html', error=error)
             else:
-                error = '無効なメールアドレスまたはパスワード'
+                error = 'データベース接続に失敗しました'
                 return render_template('login.html', error=error)
-        else:
-            error = 'データベース接続に失敗しました'
-            return render_template('login.html', error=error)
-    return render_template('login.html')
+        return render_template('login.html')
+    except Exception as e:
+        error = 'サーバーエラーが発生しました: {}'.format(str(e))
+        return render_template('login.html', error=error)
 
 @routes.route('/signup', methods=['GET', 'POST'])
 def signup():
