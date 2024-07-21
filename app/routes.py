@@ -95,18 +95,7 @@ def signup():
                 return render_template_string('<h1>新規登録中にエラーが発生しました</h1>'), 500
         else:
             return render_template_string('<h1>データベース接続に失敗しました</h1>'), 500
-    return render_template_string('''
-        <h1>新規登録</h1>
-        <form method="POST">
-            <label>名前</label><br>
-            <input type="text" name="name"><br>
-            <label>メールアドレス</label><br>
-            <input type="text" name="email"><br>
-            <label>パスワード</label><br>
-            <input type="password" name="password"><br>
-            <input type="submit" value="登録">
-        </form>
-    ''')
+    return render_template('signup.html')
 
 @routes.route('/createProfile', methods=['GET', 'POST'])
 def create_profile():
