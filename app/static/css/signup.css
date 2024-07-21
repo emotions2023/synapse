@@ -105,14 +105,15 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"] {
     margin-bottom: 10px;
     padding: 5px;
     border: 1px solid #a2a9b1;
     border-radius: 2px;
 }
 
-input[type="submit"] {
+button {
     background-color: #3366cc;
     color: white;
     border: none;
@@ -121,7 +122,7 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
+button:hover {
     background-color: #447ff5;
 }
 
@@ -154,4 +155,64 @@ footer {
 
 .a-footer a:hover {
     text-decoration: underline;
+}
+
+.register-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.register-form {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.register-stats {
+    flex: 1;
+    text-align: center;
+}
+
+.languages {
+    margin-bottom: 15px;
+}
+
+.languages a {
+    color: #3366cc;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.languages a:hover {
+    text-decoration: underline;
+}
+
+.statistics {
+    margin-top: 20px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.stat {
+    margin-bottom: 20px;
+}
+
+.stat span {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.stat p {
+    margin: 0;
 }

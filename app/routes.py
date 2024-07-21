@@ -59,19 +59,12 @@ def login():
             if user:
                 return redirect('/createProfile')
             else:
-                return render_template_string('<h1>無効なメールアドレスまたはパスワード</h1>'), 401
+                error = '無効なメールアドレスまたはパスワード'
+                return render_template('login.html', error=error)
         else:
-            return render_template_string('<h1>データベース接続に失敗しました</h1>'), 500
-    return render_template_string('''
-        <h1>ログイン</h1>
-        <form method="POST">
-            <label>メールアドレス</label><br>
-            <input type="text" name="email"><br>
-            <label>パスワード</label><br>
-            <input type="password" name="password"><br>
-            <input type="submit" value="ログイン">
-        </form>
-    ''')
+            error = 'データベース接続に失敗しました'
+            return render_template('login.html', error=error)
+    return render_template('login.html')
 
 @routes.route('/signup', methods=['GET', 'POST'])
 def signup():

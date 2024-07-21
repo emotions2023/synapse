@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+  <title>アカウント作成 - Wikipedia</title>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="hamburger-menu">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="logo"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></div>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Wikipedia内を検索">
+            <button type="submit">検索</button>
+        </div>
+        <div class="header-others">
+            <p>アカウント作成</p>
+            <p>ログイン</p>
+            <p class="ellipsis"></p>
+        </div>
+    </header>
+
+  <main>
+    <div class="register-content">
+      <div class="register-form">
+        <h2>アカウント作成</h2>
+        <div class="languages">
+          <a href="#">Deutsch</a> | 
+          <a href="#">English</a> | 
+          <a href="#">Esperanto</a> | 
+          <a href="#">français</a> | 
+          <a href="#">español</a> | 
+          <a href="#">italiano</a> | 
+          <a href="#">Nederlands</a>
+        </div>
+        <p>利用者名は公開されます。ログインして行ったすべての編集作業に対し、その履歴に利用者名が残ります。利用者名は、実名（本名）である必要はありません。実名の公開に不安を感じる方は、実名ではない利用者名を検討してください。</p>
+        <form>
+          <label for="username">利用者名</label>
+          <input type="text" id="username" name="username" required>
+          <a href="#" class="info-link">利用者名について</a>
+          
+          <label for="password">パスワード</label>
+          <input type="password" id="password" name="password" required>
+          <p class="password-note">他のウェブサイトで使用していないパスワードを使用することをお勧めします。</p>
+          
+          <label for="email">メールアドレス（推奨）</label>
+          <input type="email" id="email" name="email">
+          <p class="email-note">もしパスワードを忘れてしまったとき、メールを登録しておくと回復できます。</p>
+          
+          <button type="submit">アカウント作成</button>
+        </form>
+      </div>
+
+      <div class="register-stats">
+        <p>Wikipediaは、あなたのような人々が創っています。</p>
+        <div class="stats">
+          <div class="stat">
+            <span>100,980,981</span>
+            <p>編集</p>
+          </div>
+          <div class="stat">
+            <span>1,422,929</span>
+            <p>ページ</p>
+          </div>
+          <div class="stat">
+            <span>12,708</span>
+            <p>最近の投稿者数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
+    <div class="a-footer">
+        <a href="#">プライバシー・ポリシー</a>
+        <a href="#">ウィキペディアについて</a>
+        <a href="#">免責事項</a>
+        <a href="#">行動規範</a>
+        <a href="#">開発者</a>
+        <a href="#">統計</a>
+        <a href="#">Cookieに関する声明</a>
+        <a href="#">モバイルビュー</a>
+    </div>
+</footer>
+</body>
+</html>
