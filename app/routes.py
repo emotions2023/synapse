@@ -171,11 +171,7 @@ def create_profile():
             return jsonify({'error': f'OpenAI API Call Failed: {str(e)}'}), 500
         
         try:
-            # レスポンスの内容をログに出力
-            print("OpenAI API response:", response)
-            
             profile_data = response.choices[0].message.content
-            print("profile_data = " ,profile_data)
             profile_json = json.loads(profile_data)
             
             # 欠けているキーにデフォルト値を設定
@@ -214,56 +210,11 @@ def create_profile():
             
              # プロファイル詳細ページにリダイレクト
             return redirect(f'/profile/{profile.id}')
-
             # return jsonify(profile_json), 201
-
         except Exception as e:
             return jsonify({'error': f'Database Operation Failed: {str(e)}'}), 500
     else:
-        return render_template_string('''
-            <h1>架空の歴史を作成</h1>
-            <form method="POST" enctype="multipart/form-data">
-                <label>名前</label><br>
-                <input type="text" name="name"><br>
-                <label>カテゴリー</label><br>
-                <select name="category">
-                    {% for category in categories %}
-                        <option value="{{ category }}">{{ category }}</option>
-                    {% endfor %}
-                </select><br>
-                <label>世紀</label><br>
-                <select name="century" id="century" onchange="updateYearOfCentury()">
-                    <option value="" selected disabled>選択してください</option>
-                    {% for century in range(-2000, 2100, 100) %}
-                        <option value="{{ century }}">{{ century }}</option>
-                    {% endfor %}
-                </select><br>
-                <label>年</label><br>
-                <select name="yearOfCentury" id="yearOfCentury">
-                    <!-- JavaScriptで動的に追加 -->
-                </select><br>
-                <label>画像</label><br>
-                <input type="file" name="image"><br>
-                <input type="submit" value="作成">
-            </form>
-            <script>
-                function updateYearOfCentury() {
-                    var centurySelect = document.getElementById('century');
-                    var yearOfCenturySelect = document.getElementById('yearOfCentury');
-                    var selectedCentury = parseInt(centurySelect.value);
-                    
-                    yearOfCenturySelect.innerHTML = '';
-                    
-                    for (var i = 0; i < 100; i++) {
-                        var year = selectedCentury + i;
-                        var option = document.createElement('option');
-                        option.value = i;
-                        option.text = year;
-                        yearOfCenturySelect.appendChild(option);
-                    }
-                }
-            </script>
-        ''', categories=categories)
+        return render_template('createProfile.html',categories=categories)
         
 @routes.route('/profile/<int:id>', methods=['GET'])
 def view_profile(id):
