@@ -6,6 +6,7 @@
     <title>Wikipediaのトップページ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
 </head>
 <body>
     <header>
@@ -22,8 +23,8 @@
             <button type="submit">検索</button>
         </div>
         <div class="header-others">
-            <a href="{{ url_for('signup') }}"><p>アカウント作成</p></a>
-            <a href="{{ url_for('login') }}"><p>ログイン</p></a>
+            <a href="{{ url_for('routes.signup') }}"><p>アカウント作成</p></a>
+            <a href="{{ url_for('routes.login') }}"><p>ログイン</p></a>
             <p class="ellipsis"></p>
         </div>
     </header>

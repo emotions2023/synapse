@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
   <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
   <title>Profile Page</title>
 </head>
@@ -23,8 +24,8 @@
       <button type="submit" style="padding: 5px 10px; border: none; background-color: #f8f9fa;font-weight: 700;">検索</button>
     </div>
     <div class="header-others">
-      <a href="{{ url_for('signup') }}"><p>アカウント作成</p></a>
-      <a href="{{ url_for('login') }}"><p>ログイン</p></a>
+      <a href="{{ url_for('routes.signup') }}"><p>アカウント作成</p></a>
+      <a href="{{ url_for('routes.login') }}"><p>ログイン</p></a>
       <p class="ellipsis"></p>
     </div>
   </header>
