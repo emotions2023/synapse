@@ -15,16 +15,16 @@
                 <div></div>
                 <div></div>
             </div>
-            <div class="logo"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></div>
+            <div class="logo"><a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></a></div>
         </div>
         <div class="search-box">
             <input type="text" placeholder="Wikipedia内を検索">
             <button type="submit">検索</button>
         </div>
         <div class="header-others">
-            <p>アカウント作成</p>
-            <p>ログイン</p>
-            <p class="ellipsis"></p>
+          <a href="{{ url_for('signup') }}"><p>アカウント作成</p></a>
+          <a href="{{ url_for('login') }}"><p>ログイン</p></a>
+          <p class="ellipsis"></p>
         </div>
     </header>
 

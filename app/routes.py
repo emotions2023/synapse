@@ -38,11 +38,7 @@ def upload_image_to_gcs(base64_image):
 
 @routes.route('/')
 def home():
-    return render_template_string('''
-        <h1>トップ画面</h1>
-        <a href="/login">ログイン</a>
-        <a href="/signup">新規登録</a>
-    ''')
+    return render_template('home.html')
 
 @routes.route('/login', methods=['GET', 'POST'])
 def login():

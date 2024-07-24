@@ -1,0 +1,138 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Lato', 'Helvetica', 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 222px;
+    margin-left: 32px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.search-box input {
+    flex-grow: 1;
+    padding: 5px;
+    padding-left: 50px;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    border: none;
+    width: 322px;
+}
+
+.search-box button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #f8f9fa;
+    font-weight: 700;
+}
+
+.header-others {
+    display: flex;
+    justify-content: space-around;
+    width: 25%;
+}
+
+.hamburger-menu div {
+    width: 35px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+}
+
+h1 {
+    font-size: 1.5em;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.featured-articles {
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.featured-articles h2 {
+    margin-bottom: 10px;
+}
+
+.featured-articles ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.featured-articles li {
+    margin: 5px 0;
+}
+
+footer {
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+}
+
+.a-footer a {
+    margin-right: 2%;
+    font-size: 0.8em;
+    color: #3366cc;
+    text-decoration: none;
+}
+
+.a-footer a:hover {
+    text-decoration: underline;
+}
+
+.welcome-banner {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f0f8ff;
+    border: 1px solid #d1e7dd;
+    border-radius: 8px;
+}
+
+.welcome-banner h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.welcome-banner p {
+    margin: 5px 0;
+}
+
+.article-count {
+    font-weight: bold;
+}
+
+.help-link {
+    color: #3366cc;
+    text-decoration: none;
+}
+
+.help-link:hover {
+    text-decoration: underline;
+}
