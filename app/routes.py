@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template
+from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template, url_for, flash
 from . import db
 from .models import Profile
 from google.cloud import storage
@@ -92,6 +92,18 @@ def signup():
         else:
             return render_template_string('<h1>データベース接続に失敗しました</h1>'), 500
     return render_template('signup.html')
+
+@routes.route('/search', methods=['GET'])
+def search():
+    name = request.args.get('name')
+    if name:
+        profile = db.session.query(Profile).filter_by(name=name).first()
+        if profile:
+            return redirect(url_for('routes.view_profile', id=profile.id))
+        else:
+            flash('人物が見つかりませんでした。')
+            return redirect(url_for('routes.home'))
+    return redirect(url_for('routes.home'))
 
 @routes.route('/createProfile', methods=['GET', 'POST'])
 def create_profile():
