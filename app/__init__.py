@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from config import Config, get_db_connection, print_db_config
 
 db = SQLAlchemy()
+login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +19,8 @@ def create_app():
         # SQLAlchemyのエンジンを作成
         app.config['SQLALCHEMY_DATABASE_URI'] = Config.get_sqlalchemy_database_uri()
         db.init_app(app)
+        login_manager.init_app(app)
+        login_manager.login_view = 'routes.login'
 
         with app.app_context():
             from . import routes, models
@@ -24,3 +28,8 @@ def create_app():
             db.create_all()
 
     return app
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    from .models import User

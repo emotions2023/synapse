@@ -1,7 +1,8 @@
 import json
 from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template, url_for, flash
+from flask_login import login_user, logout_user, current_user, login_required
 from . import db
-from .models import Profile
+from .models import Profile, User
 from google.cloud import storage
 import openai
 import os
@@ -54,6 +55,8 @@ def login():
                 cursor.close()
                 conn.close()
                 if user:
+                    user_obj = User.query.filter_by(email=email).first()
+                    login_user(user_obj)
                     return redirect('/createProfile')
                 else:
                     error = '無効なメールアドレスまたはパスワード'
@@ -65,6 +68,12 @@ def login():
     except Exception as e:
         error = 'サーバーエラーが発生しました: {}'.format(str(e))
         return render_template('login.html', error=error)
+
+@routes.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('routes.login'))
 
 @routes.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -97,15 +106,16 @@ def signup():
 def search():
     name = request.args.get('name')
     if name:
-        profile = db.session.query(Profile).filter_by(name=name).first()
-        if profile:
-            return redirect(url_for('routes.view_profile', id=profile.id))
+        profiles = db.session.query(Profile).filter(Profile.name.ilike(f'%{name}%')).all()
+        if profiles:
+            return render_template('search_results.html', profiles=profiles)
         else:
             flash('人物が見つかりませんでした。')
             return redirect(url_for('routes.home'))
     return redirect(url_for('routes.home'))
 
 @routes.route('/createProfile', methods=['GET', 'POST'])
+@login_required
 def create_profile():
     categories = [
         "王族", "皇族", "政治家", "軍人", "革命家", "探検家", "科学者", "発明家", "哲学者", "作家", "詩人", "画家", "彫刻家", "音楽家", "舞踏家", "俳優", "宗教家", "商人", "工匠", "教育者", "医者", "船乗り", "改革者", "経済学者", "法学者", "民族学者", "建築家", "演出家", "ジャーナリスト", "政治活動家", "環境保護活動家", "農学者"
@@ -123,7 +133,7 @@ def create_profile():
             return jsonify({'error': 'Missing required fields'}), 400
 
         year_of_birth = century + year_of_century
-        user_id = 1  # ここではテスト用にハードコーディング
+        user_id = current_user.id
         
         user_content = {
             "name": name,
