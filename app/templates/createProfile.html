@@ -1,101 +1,62 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>架空の歴史を作成 - Wikipedia</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/createProfile.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
-</head>
-<body>
-    <header>
-        <div class="header-left">
-            <div class="hamburger-menu">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></a></div>
-        </div>
-        <div class="search-box">
-            <input type="text" placeholder="Wikipedia内を検索">
-            <button type="submit">検索</button>
-        </div>
-        <div class="header-others">
-            <a href="{{ url_for('routes.signup') }}"><p>アカウント作成</p></a>
-            <a href="{{ url_for('routes.login') }}"><p>ログイン</p></a>
-            <p class="ellipsis"></p>
-        </div>
-    </header>
-    
-    <div class="create-profile-container">
-        <h1>架空の歴史を作成</h1>
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="name">名前</label><br>
-                <input type="text" name="name" id="name"><br>
-            </div>
-            <div class="form-group">
-                <label for="category">カテゴリー</label><br>
-                <select name="category" id="category">
-                    {% for category in categories %}
-                        <option value="{{ category }}">{{ category }}</option>
-                    {% endfor %}
-                </select><br>
-            </div>
-            <div class="form-group">
-                <label for="century">世紀</label><br>
-                <select name="century" id="century" onchange="updateYearOfCentury()">
-                    <option value="" selected disabled>選択してください</option>
-                    {% for century in range(-2000, 2100, 100) %}
-                        <option value="{{ century }}">{{ century }}</option>
-                    {% endfor %}
-                </select><br>
-            </div>
-            <div class="form-group">
-                <label for="yearOfCentury">年</label><br>
-                <select name="yearOfCentury" id="yearOfCentury">
-                    <!-- JavaScriptで動的に追加 -->
-                </select><br>
-            </div>
-            <div class="form-group">
-                <label for="image">画像</label><br>
-                <input type="file" name="image" id="image"><br>
-            </div>
-            <input type="submit" value="作成">
-        </form>
-    </div>
-    
-    <footer>
-        <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
-        <div class="a-footer">
-            <a href="#">プライバシー・ポリシー</a>
-            <a href="#">ウィキペディアについて</a>
-            <a href="#">免責事項</a>
-            <a href="#">行動規範</a>
-            <a href="#">開発者</a>
-            <a href="#">統計</a>
-            <a href="#">Cookieに関する声明</a>
-            <a href="#">モバイルビュー</a>
-        </div>
-    </footer>
+{% extends "base.html" %}
 
-    <script>
-        function updateYearOfCentury() {
-            var centurySelect = document.getElementById('century');
-            var yearOfCenturySelect = document.getElementById('yearOfCentury');
-            var selectedCentury = parseInt(centurySelect.value);
-                
-            yearOfCenturySelect.innerHTML = '';
-                
-            for (var i = 0; i < 100; i++) {
-                var year = selectedCentury + i;
-                var option = document.createElement('option');
-                option.value = i;
-                option.text = year;
-                yearOfCenturySelect.appendChild(option);
-            }
+{% block title %}架空の歴史作成{% endblock %}
+
+{% block content %}
+<div class="create-profile-container">
+    <h1>架空の歴史を作成</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">名前</label><br>
+            <input type="text" name="name" id="name"><br>
+        </div>
+        <div class="form-group">
+            <label for="category">カテゴリー</label><br>
+            <select name="category" id="category">
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label for="century">世紀</label><br>
+            <select name="century" id="century" onchange="updateYearOfCentury()">
+                <option value="" selected disabled>選択してください</option>
+                {% for century in range(-2000, 2100, 100) %}
+                    <option value="{{ century }}">{{ century }}</option>
+                {% endfor %}
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label for="yearOfCentury">年</label><br>
+            <select name="yearOfCentury" id="yearOfCentury">
+                <!-- JavaScriptで動的に追加 -->
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label for="image">画像</label><br>
+            <input type="file" name="image" id="image"><br>
+        </div>
+        <input type="submit" value="作成">
+    </form>
+</div>
+
+
+<script>
+    function updateYearOfCentury() {
+        var centurySelect = document.getElementById('century');
+        var yearOfCenturySelect = document.getElementById('yearOfCentury');
+        var selectedCentury = parseInt(centurySelect.value);
+            
+        yearOfCenturySelect.innerHTML = '';
+            
+        for (var i = 0; i < 100; i++) {
+            var year = selectedCentury + i;
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = year;
+            yearOfCenturySelect.appendChild(option);
         }
-    </script>
-</body>
-</html>
+    }
+</script>
+{% endblock %}

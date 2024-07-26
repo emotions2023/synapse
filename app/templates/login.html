@@ -1,74 +1,34 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン - Wikipedia</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
-</head>
-<body>
-    <header>
-        <div class="header-left">
-            <div class="hamburger-menu">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></a></div>
-        </div>
-        <div class="search-box">
-            <input type="text" placeholder="Wikipedia内を検索">
-            <button type="submit">検索</button>
-        </div>
-        <div class="header-others">
-            <a href="{{ url_for('routes.signup') }}"><p>アカウント作成</p></a>
-            <a href="{{ url_for('routes.login') }}"><p>ログイン</p></a>
-            <p class="ellipsis"></p>
-        </div>
-    </header>
-    
-    <div class="login-container">
-        <h1>ログイン</h1>
-        <div class="languages">
-            <a href="#">Deutsch</a> | 
-            <a href="#">English</a> | 
-            <a href="#">Esperanto</a> | 
-            <a href="#">français</a> | 
-            <a href="#">español</a> | 
-            <a href="#">italiano</a> | 
-            <a href="#">Nederlands</a>
-          </div>
-          {% if error %}
-        <p style="color: red;">{{ error }}</p>
-        <a href="{{ url_for('login') }}">トップに戻る</a>
-        {% endif %}
-        <form action="/login" method="post">
-            <label for="email">メールアドレス:</label>
-            <input type="text" id="email" name="email" required>
+{% extends "base.html" %}
 
-            <label for="password">パスワード:</label>
-            <input type="password" id="password" name="password" required>
-            
-            <input type="submit" value="ログイン">
-        </form>
-        <div class="links">
-            <a href="#">アカウントを作成</a> | <a href="#">パスワードを忘れましたか?</a>
-        </div>
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h1>ログイン</h1>
+    <div class="languages">
+        <a href="#">Deutsch</a> | 
+        <a href="#">English</a> | 
+        <a href="#">Esperanto</a> | 
+        <a href="#">français</a> | 
+        <a href="#">español</a> | 
+        <a href="#">italiano</a> | 
+        <a href="#">Nederlands</a>
+      </div>
+      {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    <a href="{{ url_for('login') }}">トップに戻る</a>
+    {% endif %}
+    <form action="/login" method="post">
+        <label for="email">メールアドレス:</label>
+        <input type="text" id="email" name="email" required>
+
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <input type="submit" value="ログイン">
+    </form>
+    <div class="links">
+        <a href="#">アカウントを作成</a> | <a href="#">パスワードを忘れましたか?</a>
     </div>
-    
-    <footer>
-        <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
-        <div class="a-footer">
-            <a href="#">プライバシー・ポリシー</a>
-            <a href="#">ウィキペディアについて</a>
-            <a href="#">免責事項</a>
-            <a href="#">行動規範</a>
-            <a href="#">開発者</a>
-            <a href="#">統計</a>
-            <a href="#">Cookieに関する声明</a>
-            <a href="#">モバイルビュー</a>
-        </div>
-    </footer>
-</body>
-</html>
+</div>
+{% endblock %}

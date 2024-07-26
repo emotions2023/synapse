@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikipediaのトップページ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="hamburger-menu">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></a></div>
+        </div>
+        <form action="{{ url_for('routes.search') }}" method="GET">
+            <div class="search-box">
+                <input type="text" name="name" placeholder="Wikipedia内を検索">
+                <button type="submit">検索</button>
+            </div>
+        </form>
+        <div class="header-others">
+            {% if current_user.is_authenticated %}
+                <p>こんにちは、{{ current_user.name }}さん</p>
+                <a href="{{ url_for('routes.article_selection') }}">記事生成</a>
+            {% else %}
+                <a href="{{ url_for('routes.login') }}">ログイン</a>
+                <a href="{{ url_for('routes.signup') }}">新規登録</a>
+            {% endif %}
+        </div>
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
+        <div class="a-footer">
+            <a href="#">プライバシー・ポリシー</a>
+            <a href="#">ウィキペディアについて</a>
+            <a href="#">免責事項</a>
+            <a href="#">行動規範</a>
+            <a href="#">開発者</a>
+            <a href="#">統計</a>
+            <a href="#">Cookieに関する声明</a>
+            <a href="#">モバイルビュー</a>
+        </div>
+    </footer>
+</body>
+</html>

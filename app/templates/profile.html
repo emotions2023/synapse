@@ -1,158 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
-  <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-  <title>Profile Page</title>
-</head>
-<body>
-  <header>
-    <div style="display: flex; align-items: center;">
-      <div class="hamburger-menu" style="color: black;">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></a></div>
-    </div>
-    <div class="search-box" style="display: flex; align-items: center; border: 1px solid #ccc; padding: 5px;margin-left: 5%;margin-right: 5%;">
-      <input type="text" style="flex-grow: 1; padding-left: 50px; background-image: url_for('static', filename='img/Logo.svg'); background-repeat: no-repeat; background-position: 5px center; border: none;width: 322px;" placeholder="Wikipedia内を検索">
-      <button type="submit" style="padding: 5px 10px; border: none; background-color: #f8f9fa;font-weight: 700;">検索</button>
-    </div>
-    <div class="header-others">
-      <a href="{{ url_for('routes.signup') }}"><p>アカウント作成</p></a>
-      <a href="{{ url_for('routes.login') }}"><p>ログイン</p></a>
-      <p class="ellipsis"></p>
-    </div>
-  </header>
+{% extends "base.html" %}
 
-  <div class="main">
-    <aside class="table-of-contents">
-      <div class="tab">
-        <p style="font-weight: bold;padding: 3%;padding-right: 10%;">目次</p>
-        <p style="background: #d2d4d4; padding: 3%;">非表示</p>
-      </div>
-      <hr>
-      <ul class="sideber">
-        <li>ページ先頭</li>
-        <li>生い立ち</li>
-        <li>死没</li>
-        <li>その他</li>
-      </ul>
-    </aside>
+{% block title %}プロフィール{% endblock %}
 
-    <div class="content">
-      <h1 id="name">{{ profile.name }}</h1>
-      <hr>
-      <div class="content-header-bottom" style="display: flex; justify-content: space-between;">
-        <div style="display: flex; justify-content: space-between; width: 100%;">
-          <div style="display: flex;">
-            <p style="margin-bottom: 0; padding-bottom: 1em;border-bottom: 3px solid;">ページ</p>
-            <p style="margin-left: 0.5rem;">ノート</p>
-          </div>
-          <div style="display: flex; justify-content: space-evenly; width: 30%;">
-            <p style="margin-bottom: 0; border-bottom: 3px solid;">閲覧</p>
-            <p>編集</p>
-            <p>履歴表示</p>
-            <p>ツール</p>
-          </div>
+{% block content %}
+
+<div class="main">
+  <aside class="table-of-contents">
+    <div class="tab">
+      <p style="font-weight: bold;padding: 3%;padding-right: 10%;">目次</p>
+      <p style="background: #d2d4d4; padding: 3%;">非表示</p>
+    </div>
+    <hr>
+    <ul class="sideber">
+      <li>ページ先頭</li>
+      <li>生い立ち</li>
+      <li>死没</li>
+      <li>その他</li>
+    </ul>
+  </aside>
+
+  <div class="content">
+    <h1 id="name">{{ profile.name }}</h1>
+    <hr>
+    <div class="content-header-bottom" style="display: flex; justify-content: space-between;">
+      <div style="display: flex; justify-content: space-between; width: 100%;">
+        <div style="display: flex;">
+          <p style="margin-bottom: 0; padding-bottom: 1em;border-bottom: 3px solid;">ページ</p>
+          <p style="margin-left: 0.5rem;">ノート</p>
+        </div>
+        <div style="display: flex; justify-content: space-evenly; width: 30%;">
+          <p style="margin-bottom: 0; border-bottom: 3px solid;">閲覧</p>
+          <p>編集</p>
+          <p>履歴表示</p>
+          <p>ツール</p>
         </div>
       </div>
-      <hr>
+    </div>
+    <hr>
 
-      <div class="user-story">
-        <div class="user-story-details">
-          <p>出典: なんとなく百科事典『パチペディア（Pachipedia）』</p>
-          <div class="others">
-            <div class="section-title">Others</div>
-            <p>{{ profile.others }}</p>
-          </div>
-          <div style="display: flex; align-items: center;">
-            <h3 style="margin-right: 3%;">生涯</h3>
-            <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
-          </div>
-          <hr>
-          <div style="display: flex; align-items: center;">
-            <h4 style="margin-right: 3%;">生い立ち</h4>
-            <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
-          </div>
-          <p id="upbringing">{{ profile.upbringing }}</p>
-          <div style="display: flex; align-items: center;">
-            <h4 style="margin-right: 3%;">死去</h4>
-            <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
-          </div>
-          <p id="deathDetails">{{ profile.death_details }}</p>
+    <div class="user-story">
+      <div class="user-story-details">
+        <p>出典: なんとなく百科事典『パチペディア（Pachipedia）』</p>
+        <div class="others">
+          <div class="section-title">Others</div>
+          <p>{{ profile.others }}</p>
         </div>
-        <div class="user-list">
-          <h2 class="name">{{ profile.name }}</h2>
-          <div class="user-picture"><img src="{{ profile.image_url }}" alt="User Picture" style="width: 100%;"></div>
-          <div class="details">
-            <table class="details-list">
-              <tr>
-                <td id="td1">誕生</td>
-                <td>{{ profile.birth }}</td>
-              </tr>
-              <tr>
-                <td id="td1">死没</td>
-                <td>{{ profile.death }}</td>
-              </tr>
-              <tr>
-                <td id="td1">墓地</td>
-                <td>{{ profile.cemetery }}</td>
-              </tr>
-              <tr>
-                <td id="td1">職業</td>
-                <td>{{ profile.business }}</td>
-              </tr>
-              <tr>
-                <td id="td1">言語</td>
-                <td>{{ profile.language }}</td>
-              </tr>
-              <tr>
-                <td id="td1">国籍</td>
-                <td>{{ profile.nationality }}</td>
-              </tr>
-              <tr>
-                <td id="td1">教育</td>
-                <td>{{ profile.education }}</td>
-              </tr>
-              <tr>
-                <td id="td1">最終学歴</td>
-                <td>{{ profile.last_education }}</td>
-              </tr>
-              <tr>
-                <td id="td1">活動期間</td>
-                <td>{{ profile.period_of_activity }}</td>
-              </tr>
-              <tr>
-                <td id="td1">ジャンル</td>
-                <td>{{ profile.genre }}</td>
-              </tr>
-            </table>
-          </div>
+        <div style="display: flex; align-items: center;">
+          <h3 style="margin-right: 3%;">生涯</h3>
+          <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
+        </div>
+        <hr>
+        <div style="display: flex; align-items: center;">
+          <h4 style="margin-right: 3%;">生い立ち</h4>
+          <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
+        </div>
+        <p id="upbringing">{{ profile.upbringing }}</p>
+        <div style="display: flex; align-items: center;">
+          <h4 style="margin-right: 3%;">死去</h4>
+          <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
+        </div>
+        <p id="deathDetails">{{ profile.death_details }}</p>
+      </div>
+      <div class="user-list">
+        <h2 class="name">{{ profile.name }}</h2>
+        <div class="user-picture"><img src="{{ profile.image_url }}" alt="User Picture" style="width: 100%;"></div>
+        <div class="details">
+          <table class="details-list">
+            <tr>
+              <td id="td1">誕生</td>
+              <td>{{ profile.birth }}</td>
+            </tr>
+            <tr>
+              <td id="td1">死没</td>
+              <td>{{ profile.death }}</td>
+            </tr>
+            <tr>
+              <td id="td1">墓地</td>
+              <td>{{ profile.cemetery }}</td>
+            </tr>
+            <tr>
+              <td id="td1">職業</td>
+              <td>{{ profile.business }}</td>
+            </tr>
+            <tr>
+              <td id="td1">言語</td>
+              <td>{{ profile.language }}</td>
+            </tr>
+            <tr>
+              <td id="td1">国籍</td>
+              <td>{{ profile.nationality }}</td>
+            </tr>
+            <tr>
+              <td id="td1">教育</td>
+              <td>{{ profile.education }}</td>
+            </tr>
+            <tr>
+              <td id="td1">最終学歴</td>
+              <td>{{ profile.last_education }}</td>
+            </tr>
+            <tr>
+              <td id="td1">活動期間</td>
+              <td>{{ profile.period_of_activity }}</td>
+            </tr>
+            <tr>
+              <td id="td1">ジャンル</td>
+              <td>{{ profile.genre }}</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
   </div>
-  <hr style="width: 95%; margin: 0 auto;">
+</div>
+<hr style="width: 95%; margin: 0 auto;">
 
-  <footer style="width: 95%;margin: 0 auto; margin-bottom: 5%;">
-    <p id="last-updated">最終更新: yyyy-mm-dd</p>
-    <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
-    <div class="a-footer">
-      <a href="#">プライバシー・ポリシー</a>
-      <a href="#">ウィキペディアについて</a>
-      <a href="#">免責事項</a>
-      <a href="#">行動規範</a>
-      <a href="#">開発者</a>
-      <a href="#">統計</a>
-      <a href="#">Cookieに関する声明</a>
-      <a href="#">モバイルビュー</a>
-    </div>
-  </footer>
-</body>
-</html>
+{% endblock %}

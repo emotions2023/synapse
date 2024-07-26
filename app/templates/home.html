@@ -1,76 +1,31 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wikipediaのトップページ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
-</head>
-<body>
-    <header>
-        <div class="header-left">
-            <div class="hamburger-menu">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></a></div>
-        </div>
-        <form action="{{ url_for('routes.search') }}" method="GET">
-            <div class="search-box">
-                <input type="text" name="name" placeholder="Wikipedia内を検索">
-                <button type="submit">検索</button>
-            </div>
-        </form>
-        <div class="header-others">
-            <a href="{{ url_for('routes.signup') }}"><p>アカウント作成</p></a>
-            <a href="{{ url_for('routes.login') }}"><p>ログイン</p></a>
-            <p class="ellipsis"></p>
-        </div>
-    </header>
-    
-    <main class="max-w-7xl mx-auto p-4">
-        <section class="mb-4">
-            <h1 class="text-2xl font-bold">パチペディアへようこそ</h1>
-            <p>パチペディアは誰でも編集できるなんとなく百科事典です</p>
-        </section>
+{% extends "base.html" %}
 
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <article class="col-span-2 p-4 border border-gray-300 rounded">
-                <h2 class="text-xl font-bold mb-2">選り抜き記事</h2>
-                <div class="flex">
-                    <img src="https://via.placeholder.com/100" alt="Article Image" class="w-24 h-24 mr-4">
-                    <p>天皇賞は、日本中央競馬会（JRA）が春・秋に年2回施行する競馬の重賞中央競馬の重賞競走（GI）である。第1回に相当する「帝室御賞典」は1937年（昭和12年）に行われているが、JRAが前身としている「The Emperor's Cup（エンペラーズカップ）」は1905年（明治38年）に起源をもち、日本で施行される競馬の競走では最高の格付けとなるGIの中でも、長い歴史と伝統を持つ競走である。現在は賞金のほか、優勝賞品として皇室から楯が下賜されており、天皇賞を「盾」と通称することもある。</p>
-                </div>
-            </article>
+{% block title %}ホーム{% endblock %}
 
-            <aside class="p-4 border border-gray-300 rounded">
-                <h2 class="text-xl font-bold mb-2">今日の一枚</h2>
-                <img src="https://via.placeholder.com/200" alt="Today's Image" class="w-full h-48 object-cover mb-2">
-                <p>鳥取砂丘の第2砂丘列（通称：馬の背）、鳥取県鳥取市</p>
-            </aside>
-        </section>
+{% block content %}
+<section class="mb-4">
+    <h1 class="text-2xl font-bold">パチペディアへようこそ</h1>
+    <p>パチペディアは誰でも編集できるなんとなく百科事典です</p>
+</section>
 
-        <section class="mt-4">
-            <h2 class="text-xl font-bold mb-2">今日は何の日 7月23日</h2>
-            <p>『BEAT EMOTION』は、日本のロックバンドであるBOØWYの5枚目のオリジナル・アルバム。</p>
-        </section>
-    </main>
-    
-    <footer>
-        <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
-        <div class="a-footer">
-            <a href="#">プライバシー・ポリシー</a>
-            <a href="#">ウィキペディアについて</a>
-            <a href="#">免責事項</a>
-            <a href="#">行動規範</a>
-            <a href="#">開発者</a>
-            <a href="#">統計</a>
-            <a href="#">Cookieに関する声明</a>
-            <a href="#">モバイルビュー</a>
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <article class="col-span-2 p-4 border border-gray-300 rounded">
+        <h2 class="text-xl font-bold mb-2">選り抜き記事</h2>
+        <div class="flex">
+            <img src="https://via.placeholder.com/100" alt="Article Image" class="w-24 h-24 mr-4">
+            <p>天皇賞は、日本中央競馬会（JRA）が春・秋に年2回施行する競馬の重賞中央競馬の重賞競走（GI）である。第1回に相当する「帝室御賞典」は1937年（昭和12年）に行われているが、JRAが前身としている「The Emperor's Cup（エンペラーズカップ）」は1905年（明治38年）に起源をもち、日本で施行される競馬の競走では最高の格付けとなるGIの中でも、長い歴史と伝統を持つ競走である。現在は賞金のほか、優勝賞品として皇室から楯が下賜されており、天皇賞を「盾」と通称することもある。</p>
         </div>
-    </footer>
-</body>
-</html>
+    </article>
+
+    <aside class="p-4 border border-gray-300 rounded">
+        <h2 class="text-xl font-bold mb-2">今日の一枚</h2>
+        <img src="https://via.placeholder.com/200" alt="Today's Image" class="w-full h-48 object-cover mb-2">
+        <p>鳥取砂丘の第2砂丘列（通称：馬の背）、鳥取県鳥取市</p>
+    </aside>
+</section>
+
+<section class="mt-4">
+    <h2 class="text-xl font-bold mb-2">今日は何の日 7月23日</h2>
+    <p>『BEAT EMOTION』は、日本のロックバンドであるBOØWYの5枚目のオリジナル・アルバム。</p>
+</section>
+{% endblock %}
