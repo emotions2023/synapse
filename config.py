@@ -16,7 +16,6 @@ class Config:
     @staticmethod
     def get_db_config():
         return {
-            'secretkey': Config.SECRET_KEY,
             'dbname': Config.DATABASE,
             'user': Config.USER,
             'password': Config.PASSWORD,
