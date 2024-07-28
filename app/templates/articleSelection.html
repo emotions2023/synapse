@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}記事作成{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('routes.featuredArticles') }}">選り抜き記事生成</a>
+<a href="{{ url_for('routes.dailyImages') }}">今日の一枚生成</a>
+<a href="{{ url_for('routes.dailyEvents') }}">今日は何の日生成</a>
+<a href="{{ url_for('routes.createProfile') }}">歴史生成</a>
+{% endblock %}
