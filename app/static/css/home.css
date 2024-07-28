@@ -55,6 +55,15 @@ header {
     display: flex;
     justify-content: space-around;
     width: 25%;
+    align-items: center;
+}
+
+.header-others p {
+    margin-right: 15px;  /* 名前の右側にスペースを追加 */
+}
+
+.header-others a {
+    margin-left: 15px;  /* 各リンクの左側にスペースを追加 */
 }
 
 .hamburger-menu div {
@@ -135,4 +144,46 @@ footer {
 
 .help-link:hover {
     text-decoration: underline;
+}
+
+/* トップ画面の架空の歴史リストのスタイル */
+.history-list {
+    width: 80%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.history-list h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.history-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.history-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.history-list li img {
+    margin-right: 15px;
+    border-radius: 5px;
+}
+
+.history-list h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.history-list p {
+    margin: 5px 0 0;
 }

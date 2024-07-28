@@ -37,10 +37,14 @@ def upload_image_to_gcs(base64_image):
         print(f"Failed to upload image to GCS: {e}")
         return None
 
+# トップ -----------------------------------------------------------------------
 @routes.route('/')
 def home():
-    return render_template('home.html')
+    histories = Profile.query.filter_by(delete_flag=False).all()
+    return render_template('home.html', histories=histories)
+    # return render_template('home.html')
 
+# ログイン -----------------------------------------------------------------------
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -58,12 +62,14 @@ def login():
     
     return render_template('login.html')
 
+# ログアウト -----------------------------------------------------------------------
 @routes.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('routes.login'))
 
+# サインアップ -----------------------------------------------------------------------
 @routes.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -91,6 +97,7 @@ def signup():
             return render_template_string('<h1>データベース接続に失敗しました</h1>'), 500
     return render_template('signup.html')
 
+# 検索 -----------------------------------------------------------------------
 @routes.route('/search', methods=['GET'])
 def search():
     name = request.args.get('name')
@@ -103,6 +110,7 @@ def search():
             return redirect(url_for('routes.home'))
     return redirect(url_for('routes.home'))
 
+# 歴史生成 -----------------------------------------------------------------------
 @routes.route('/createProfile', methods=['GET', 'POST'])
 @login_required
 def create_profile():
@@ -223,6 +231,7 @@ def create_profile():
     else:
         return render_template('createProfile.html',categories=categories)
 
+# 生成した歴史確認 -----------------------------------------------------------------------
 @routes.route('/profile/<int:id>', methods=['GET'])
 def viewProfile(id):
     profile = Profile.query.get(id)
@@ -241,7 +250,6 @@ def articleSelection():
 @routes.route('/featuredArticles', methods=['GET', 'POST'])
 @login_required
 def featureArticles():
-    # エンドポイントの処理
     return "featuredArticles"
 
 

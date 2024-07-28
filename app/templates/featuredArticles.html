@@ -3,5 +3,30 @@
 {% block title %}選り抜き記事生成{% endblock %}
 
 {% block content %}
-<h1>選り抜き記事</h1>
+<div class="create-featured-article-container">
+    <h1>選り抜き記事を作成</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">タイトル</label><br>
+            <input type="text" name="title" id="title" required><br>
+        </div>
+        <div class="form-group">
+            <label for="summary">概要</label><br>
+            <textarea name="summary" id="summary" required></textarea><br>
+        </div>
+        <div class="form-group">
+            <label for="genre">ジャンル</label><br>
+            <select name="genre" id="genre" required>
+                <option value="history">歴史</option>
+                <option value="science">科学</option>
+                <option value="literature">文学</option>
+                <option value="art">芸術</option>
+                <option value="politics">政治</option>
+                <option value="technology">技術</option>
+                <option value="others">その他</option>
+            </select><br>
+        </div>
+        <input type="submit" value="作成">
+    </form>
+</div>
 {% endblock %}
