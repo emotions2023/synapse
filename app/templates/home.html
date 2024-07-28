@@ -8,11 +8,13 @@
     <ul>
         {% for history in histories %}
         <li>
-            <img src="{{ history.image_url }}" alt="{{ history.name }}" width="100">
-            <div>
-                <h2>{{ history.name }}</h2>
-                <p>{{ history.birth }}</p>
-            </div>
+            <a href="{{ url_for('viewProfile', id=history.id) }}">
+                <img src="{{ history.image_url }}" alt="{{ history.name }}" width="100">
+                <div>
+                    <h2>{{ history.name }}</h2>
+                    <p>{{ history.birth }}</p>
+                </div>
+            </a>
         </li>
         {% endfor %}
     </ul>

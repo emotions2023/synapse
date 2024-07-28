@@ -31,7 +31,7 @@
         <div class="header-others">
             {% if current_user.is_authenticated %}
                 <p>{{ current_user.name }}</p>
-                <a href="{{ url_for('routes.articleSelection') }}">記事生成一覧</a>
+                <a href="{{ url_for('routes.createProfile') }}">歴史生成</a>
                 <a href="{{ url_for('routes.logout') }}">ログアウト</a>
             {% else %}
                 <a href="{{ url_for('routes.login') }}">ログイン</a>
