@@ -224,37 +224,37 @@ def create_profile():
         return render_template('createProfile.html',categories=categories)
 
 @routes.route('/profile/<int:id>', methods=['GET'])
-def view_profile(id):
+def viewProfile(id):
     profile = Profile.query.get(id)
     if not profile:
         return "Profile not found", 404
     return render_template('profile.html', profile=profile)
 
-# 記事生成 -------------------------------------------------------------
+# 記事生成一覧 -------------------------------------------------------------
 @routes.route('/articleSelection', methods=['GET', 'POST'])
 @login_required
 def articleSelection():
     # エンドポイントの処理
     return render_template('articleSelection.html')
 
-# 選り抜き記事-------------------------------------------------------------
+# 記事生成一覧 > 選り抜き記事-------------------------------------------------------------
 @routes.route('/featuredArticles', methods=['GET', 'POST'])
 @login_required
-def feature_articles():
+def featureArticles():
     # エンドポイントの処理
     return "featuredArticles"
 
 
-# 今日の１枚-------------------------------------------------------------
+# 記事生成一覧 > 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
 @login_required
-def daily_images():
+def dailyImages():
     # エンドポイントの処理
     return "dailyImages"
 
-# 今日は何の日？-------------------------------------------------------------
+# 記事生成一覧 > 今日は何の日？-------------------------------------------------------------
 @routes.route('/dailyEvents', methods=['GET', 'POST'])
 @login_required
-def daily_events():
+def dailyEvents():
     # エンドポイントの処理
     return "dailyEvents"
