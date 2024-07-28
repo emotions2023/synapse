@@ -16,7 +16,7 @@
       </div>
       {% if error %}
     <p style="color: red;">{{ error }}</p>
-    <a href="{{ url_for('login') }}">トップに戻る</a>
+    <a href="{{ url_for('routes.login') }}">トップに戻る</a>
     {% endif %}
     <form action="/login" method="post">
         <label for="email">メールアドレス:</label>
