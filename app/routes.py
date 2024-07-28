@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from . import db
-from .models import User, Profile, FeaturedArticle, DailyImage, DailyEvent
+from .models import Users, Profile, FeaturedArticle, DailyImage, DailyEvent
 from google.cloud import storage
 import openai
 import os
@@ -41,13 +41,16 @@ def upload_image_to_gcs(base64_image):
 def home():
     return render_template('home.html')
 
+
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
     try:
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
-            user_obj = User.query.filter_by(email=email, password=password).first()
+            print(f"Attempting to log in with email: {email} and password: {password}")
+            user_obj = Users.query.filter_by(email=email, password=password).first()
+            print(f"User object found: {user_obj}")
             if user_obj:
                 login_user(user_obj)
                 return redirect('/createProfile')
@@ -57,8 +60,8 @@ def login():
         return render_template('login.html')
     except Exception as e:
         error = 'サーバーエラーが発生しました: {}'.format(str(e))
+        print(f"Error: {error}")
         return render_template('login.html', error=error)
-
 
 @routes.route('/logout')
 @login_required

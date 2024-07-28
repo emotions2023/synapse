@@ -14,22 +14,28 @@ def create_app():
     print_db_config()
 
     # データベースに接続
-    conn = get_db_connection()
-    if conn:
-        # SQLAlchemyのエンジンを作成
-        app.config['SQLALCHEMY_DATABASE_URI'] = Config.get_sqlalchemy_database_uri()
-        db.init_app(app)
-        login_manager.init_app(app)
-        login_manager.login_view = 'routes.login'
+    try:
+        conn = get_db_connection()
+        if conn:
+            print("Database connection successful")
+            # SQLAlchemyのエンジンを作成
+            app.config['SQLALCHEMY_DATABASE_URI'] = Config.get_sqlalchemy_database_uri()
+            db.init_app(app)
+            login_manager.init_app(app)
+            login_manager.login_view = 'routes.login'
 
-        with app.app_context():
-            from . import routes, models
-            app.register_blueprint(routes.routes)  # ここでBlueprintを登録
-            db.create_all()
+            with app.app_context():
+                from . import routes, models
+                app.register_blueprint(routes.routes)  # ここでBlueprintを登録
+                db.create_all()
+        else:
+            print("Database connection failed")
+    except Exception as e:
+        print(f"Database connection error: {e}")
 
     return app
 
-
 @login_manager.user_loader
 def load_user(user_id):
-    from .models import User
+    from .models import Users
+    return Users.query.get(int(user_id))
