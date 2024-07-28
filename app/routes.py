@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from . import db
-from .models import Profile, User
+from .models import User, Profile, FeaturedArticle, DailyImage, DailyEvent
 from google.cloud import storage
 import openai
 import os
