@@ -30,30 +30,25 @@ header {
     align-items: center;
     margin-left: 5%;
     margin-right: 5%;
-    flex-grow: 1;
+    flex-grow: 1; /* Add this to make the search box take available space */
 }
 
 .search-box input {
     flex-grow: 1;
-    padding: 5px;
-    padding-left: 10px;
-    background-repeat: no-repeat;
-    background-position: 5px center;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-right: none;
     border-radius: 5px 0 0 5px;
-    height: 40px;
+    height: 40px; /* Ensure the input and button have the same height */
 }
 
 .search-box button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #f8f9fa;
-    font-weight: 700;
+    padding: 10px 20px;
     border: 1px solid #ccc;
     border-left: none;
     border-radius: 0 5px 5px 0;
-    height: 40px;
+    background-color: #f8f9fa;
+    font-weight: 700;
+    height: 40px; /* Ensure the input and button have the same height */
     cursor: pointer;
 }
 
