@@ -41,29 +41,22 @@ def upload_image_to_gcs(base64_image):
 def home():
     return render_template('home.html')
 
-
-
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
 
-        print(f"Attempting to log in with email: {email} and password: {password}")
-
         user_obj = Users.query.filter_by(email=email, password=password).first()
         
         if user_obj:
-            print(f"User object found: {user_obj}")
             login_user(user_obj)
             return redirect('/createProfile')
         else:
             error = "Invalid email or password"
-            print(f"Error: {error}")
             return render_template('login.html', error=error)
     
     return render_template('login.html')
-
 
 @routes.route('/logout')
 @login_required
@@ -229,7 +222,7 @@ def create_profile():
             return jsonify({'error': f'Database Operation Failed: {str(e)}'}), 500
     else:
         return render_template('createProfile.html',categories=categories)
-        
+
 @routes.route('/profile/<int:id>', methods=['GET'])
 def view_profile(id):
     profile = Profile.query.get(id)

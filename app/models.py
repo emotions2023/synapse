@@ -9,12 +9,20 @@ class Users(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     
     @property
+    def is_authenticated(self):
+        return True
+
+    @property
     def is_active(self):
         return True
-    
-    def get_id(self):
-        return self.id
 
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+    
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
