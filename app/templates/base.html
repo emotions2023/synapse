@@ -20,13 +20,13 @@
             <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo"></a></div>
         </div>
         <form action="{{ url_for('routes.search') }}" method="GET" class="search-box">
-            <input type="text" name="name" placeholder="パチペディア内を検索">
+            <input type="text" name="name" placeholder="Pachipedia内を検索">
             <button type="submit">検索</button>
         </form>
         <div class="header-others">
             {% if current_user.is_authenticated %}
-                <p>こんにちは、{{ current_user.name }}さん</p>
-                <a href="{{ url_for('routes.create_profile') }}">架空の歴史作成</a>
+                <p>{{ current_user.name }}</p>
+                <a href="{{ url_for('routes.create_profile') }}">歴史生成</a>
                 <a href="{{ url_for('routes.logout') }}">ログアウト</a>
             {% else %}
                 <a href="{{ url_for('routes.login') }}">ログイン</a>

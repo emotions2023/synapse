@@ -72,6 +72,8 @@ def logout():
 # サインアップ -----------------------------------------------------------------------
 @routes.route('/signup', methods=['GET', 'POST'])
 def signup():
+    user_count = Users.query.count()
+    page_count = Profile.query.count()
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -84,29 +86,25 @@ def signup():
                 conn.commit()
                 cursor.close()
                 conn.close()
-                
-                # 新規ユーザーを取得して自動的にログインさせる
-                new_user = Users.query.filter_by(email=email).first()
-                login_user(new_user)
-                
                 flash('新規登録に成功しました！', 'success')
+                user_obj = Users.query.filter_by(email=email, password=password).first()
+                if user_obj:
+                    login_user(user_obj)
                 return redirect(url_for('routes.home'))
             except psycopg2.IntegrityError:
                 conn.rollback()
                 cursor.close()
                 conn.close()
-                flash('このメールアドレスは既に登録されています。', 'error')
-                return redirect(url_for('routes.home'))
+                flash('このメールアドレスは既に登録されています', 'error')
+                return redirect(url_for('routes.signup'))
             except Exception as e:
                 print(f"Error during signup: {e}")
-                flash('新規登録中にエラーが発生しました。', 'error')
-                return redirect(url_for('routes.home'))
+                flash('新規登録中にエラーが発生しました', 'error')
+                return redirect(url_for('routes.signup'))
         else:
-            flash('データベース接続に失敗しました。', 'error')
-            return redirect(url_for('routes.home'))
-    user_count = Users.query.count()
-    page_count = Profile.query.count()
-    return redirect('routes.signup', user_count=user_count, page_count=page_count)
+            flash('データベース接続に失敗しました', 'error')
+            return redirect(url_for('routes.signup'))
+    return render_template('signup.html', user_count=user_count, page_count=page_count)
 
 # 検索 -----------------------------------------------------------------------
 @routes.route('/search', methods=['GET'])
@@ -264,7 +262,6 @@ def searchResults():
 @routes.route('/articleSelection', methods=['GET', 'POST'])
 @login_required
 def articleSelection():
-    # エンドポイントの処理
     return render_template('articleSelection.html')
 
 # 記事生成一覧 > 選り抜き記事-------------------------------------------------------------
@@ -273,17 +270,14 @@ def articleSelection():
 def featureArticles():
     return "featuredArticles"
 
-
 # 記事生成一覧 > 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
 @login_required
 def dailyImages():
-    # エンドポイントの処理
     return "dailyImages"
 
 # 記事生成一覧 > 今日は何の日？-------------------------------------------------------------
 @routes.route('/dailyEvents', methods=['GET', 'POST'])
 @login_required
 def dailyEvents():
-    # エンドポイントの処理
     return "dailyEvents"
