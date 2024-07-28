@@ -41,6 +41,11 @@ header {
     font-size: larger;
 }
 
+label {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
 footer {
     width: 95%;
     margin: 0 auto;
