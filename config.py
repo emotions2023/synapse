@@ -4,6 +4,7 @@ import traceback
 
 # Configクラスの定義
 class Config:
+    SECRET_KEY = os.getenv('SECRET_KEY')
     DATABASE = os.getenv('DB_NAME')
     USER = os.getenv('DB_USER')
     PASSWORD = os.getenv('DB_PASSWORD')
@@ -15,6 +16,7 @@ class Config:
     @staticmethod
     def get_db_config():
         return {
+            'secretkey': Config.SECRET_KEY,
             'dbname': Config.DATABASE,
             'user': Config.USER,
             'password': Config.PASSWORD,
