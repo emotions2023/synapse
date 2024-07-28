@@ -8,7 +8,7 @@
     <ul>
         {% for history in histories %}
         <li>
-            <a href="{{ url_for('viewProfile', id=history.id) }}">
+            <a href="{{ url_for('routes.viewProfile', id=history.id) }}">
                 <img src="{{ history.image_url }}" alt="{{ history.name }}" width="100">
                 <div>
                     <h2>{{ history.name }}</h2>
