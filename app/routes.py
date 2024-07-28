@@ -72,6 +72,8 @@ def logout():
 # サインアップ -----------------------------------------------------------------------
 @routes.route('/signup', methods=['GET', 'POST'])
 def signup():
+    user_count = Users.query.count()
+    page_count = Profile.query.count()
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -84,7 +86,7 @@ def signup():
                 conn.commit()
                 cursor.close()
                 conn.close()
-                return render_template_string('<h1>新規登録に成功しました！</h1>')
+                return redirect(url_for('routes.home'))
             except psycopg2.IntegrityError:
                 conn.rollback()
                 cursor.close()
@@ -95,7 +97,7 @@ def signup():
                 return render_template_string('<h1>新規登録中にエラーが発生しました</h1>'), 500
         else:
             return render_template_string('<h1>データベース接続に失敗しました</h1>'), 500
-    return render_template('signup.html')
+    return render_template('signup.html',user_count=user_count,page_count=page_count)
 
 # 検索 -----------------------------------------------------------------------
 @routes.route('/search', methods=['GET'])
@@ -104,7 +106,10 @@ def search():
     if name:
         profiles = db.session.query(Profile).filter(Profile.name.ilike(f'%{name}%')).all()
         if profiles:
-            return render_template('search_results.html', profiles=profiles)
+            if len(profiles) == 1:
+                return redirect(url_for('routes.profile', id=profiles[0].id))
+            else:
+                return redirect(url_for('routes.searchResults', profiles=profiles))
         else:
             flash('人物が見つかりませんでした。')
             return redirect(url_for('routes.home'))
@@ -238,6 +243,13 @@ def viewProfile(id):
     if not profile:
         return "Profile not found", 404
     return render_template('profile.html', profile=profile)
+
+# 生成した歴史確認（リスト） -----------------------------------------------------------------------
+@routes.route('/searchResults', methods=['GET'])
+def searchResults():
+    name = request.args.get('name')
+    profiles = db.session.query(Profile).filter(Profile.name.ilike(f'%{name}%')).all()
+    return render_template('searchResults.html', profiles=profiles)
 
 # 記事生成一覧 -------------------------------------------------------------
 @routes.route('/articleSelection', methods=['GET', 'POST'])

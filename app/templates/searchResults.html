@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}検索{% endblock %}
+
+{% block content %}
+<div class="history-list">
+    <h1>架空の歴史リスト</h1>
+    <ul>
+        {% for history in histories %}
+        <li>
+            <a href="{{ url_for('routes.viewProfile', id=history.id) }}">
+                <img src="{{ history.image_url }}" alt="{{ history.name }}" width="100">
+                <div>
+                    <h2>{{ history.name }}</h2>
+                    <p>{{ history.birth }}</p>
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
