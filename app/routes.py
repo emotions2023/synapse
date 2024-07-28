@@ -47,27 +47,18 @@ def login():
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
-            conn = db.engine.raw_connection()
-            if conn is not None:
-                cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-                cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password))
-                user = cursor.fetchone()
-                cursor.close()
-                conn.close()
-                if user:
-                    user_obj = User.query.filter_by(email=email).first()
-                    login_user(user_obj)
-                    return redirect('/createProfile')
-                else:
-                    error = '無効なメールアドレスまたはパスワード'
-                    return render_template('login.html', error=error)
+            user_obj = User.query.filter_by(email=email, password=password).first()
+            if user_obj:
+                login_user(user_obj)
+                return redirect('/createProfile')
             else:
-                error = 'データベース接続に失敗しました'
+                error = '無効なメールアドレスまたはパスワード'
                 return render_template('login.html', error=error)
         return render_template('login.html')
     except Exception as e:
         error = 'サーバーエラーが発生しました: {}'.format(str(e))
         return render_template('login.html', error=error)
+
 
 @routes.route('/logout')
 @login_required
