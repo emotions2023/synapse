@@ -32,6 +32,7 @@
             {% if current_user.is_authenticated %}
                 <p>こんにちは、{{ current_user.name }}さん</p>
                 <a href="{{ url_for('routes.article_selection') }}">記事生成</a>
+                <a href="{{ url_for('routes.logout') }}">ログアウト</a>
             {% else %}
                 <a href="{{ url_for('routes.login') }}">ログイン</a>
                 <a href="{{ url_for('routes.signup') }}">新規登録</a>

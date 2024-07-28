@@ -235,8 +235,7 @@ def view_profile(id):
 @login_required
 def article_selection():
     # エンドポイントの処理
-    return render_template('article_selection.html')
-
+    return render_template('articleSelection.html')
 
 #選り抜き記事-------------------------------------------------------------
 @routes.route('/featuredArticles', methods=['GET', 'POST'])
