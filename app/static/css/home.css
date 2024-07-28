@@ -193,3 +193,61 @@ footer {
 .history-list p {
     margin: 5px 0 0;
 }
+
+/* ユーザー数とページ数のスタイル */
+.register-stats {
+    text-align: center;
+    margin-top: 30px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-stats p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+}
+
+.stat {
+    margin: 0 20px;
+    text-align: center;
+}
+
+.stat span {
+    font-size: 2em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.stat p {
+    margin: 0;
+}
+
+/* フラッシュメッセージのスタイル */
+.flash-messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.flash-message {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.flash-message.success {
+    background-color: #4CAF50;
+}
+
+.flash-message.error {
+    background-color: #f44336;
+}

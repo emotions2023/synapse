@@ -72,8 +72,6 @@ def logout():
 # サインアップ -----------------------------------------------------------------------
 @routes.route('/signup', methods=['GET', 'POST'])
 def signup():
-    user_count = Users.query.count()
-    page_count = Profile.query.count()
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -86,18 +84,29 @@ def signup():
                 conn.commit()
                 cursor.close()
                 conn.close()
+                
+                # 新規ユーザーを取得して自動的にログインさせる
+                new_user = Users.query.filter_by(email=email).first()
+                login_user(new_user)
+                
+                flash('新規登録に成功しました！', 'success')
                 return redirect(url_for('routes.home'))
             except psycopg2.IntegrityError:
                 conn.rollback()
                 cursor.close()
                 conn.close()
-                return render_template_string('<h1>このメールアドレスは既に登録されています</h1>'), 400
+                flash('このメールアドレスは既に登録されています。', 'error')
+                return redirect(url_for('routes.home'))
             except Exception as e:
                 print(f"Error during signup: {e}")
-                return render_template_string('<h1>新規登録中にエラーが発生しました</h1>'), 500
+                flash('新規登録中にエラーが発生しました。', 'error')
+                return redirect(url_for('routes.home'))
         else:
-            return render_template_string('<h1>データベース接続に失敗しました</h1>'), 500
-    return render_template('signup.html',user_count=user_count,page_count=page_count)
+            flash('データベース接続に失敗しました。', 'error')
+            return redirect(url_for('routes.home'))
+    user_count = Users.query.count()
+    page_count = Profile.query.count()
+    return redirect('routes.signup', user_count=user_count, page_count=page_count)
 
 # 検索 -----------------------------------------------------------------------
 @routes.route('/search', methods=['GET'])
@@ -107,9 +116,9 @@ def search():
         profiles = db.session.query(Profile).filter(Profile.name.ilike(f'%{name}%')).all()
         if profiles:
             if len(profiles) == 1:
-                return redirect(url_for('routes.profile', id=profiles[0].id))
+                return redirect(url_for('routes.viewProfile', id=profiles[0].id))
             else:
-                return redirect(url_for('routes.searchResults', profiles=profiles))
+                return render_template('searchResults.html', profiles=profiles)
         else:
             flash('人物が見つかりませんでした。')
             return redirect(url_for('routes.home'))

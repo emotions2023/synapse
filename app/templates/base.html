@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wikipediaのトップページ</title>
+    <title>{% block title %}{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/createProfile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
@@ -15,35 +15,34 @@
 <body>
     <header>
         <div class="header-left">
-            <div class="hamburger-menu">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo" style="width: 222px;margin-left: 32px;"></a></div>
+            <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo"></a></div>
         </div>
-        <form action="{{ url_for('routes.search') }}" method="GET">
-            <div class="search-box">
-                <input type="text" name="name" placeholder="Wikipedia内を検索">
-                <button type="submit">検索</button>
-            </div>
-        </form>
         <div class="header-others">
             {% if current_user.is_authenticated %}
-                <p>{{ current_user.name }}</p>
-                <a href="{{ url_for('routes.create_profile') }}">歴史生成</a>
+                <p>{{ current_user.name }}さん</p>
+                <a href="{{ url_for('routes.create_profile') }}">歴史作成</a>
                 <a href="{{ url_for('routes.logout') }}">ログアウト</a>
             {% else %}
                 <a href="{{ url_for('routes.login') }}">ログイン</a>
-                <a href="{{ url_for('routes.signup') }}">新規登録</a>
+                <a href="{{ url_for('routes.signup') }}">新規作成</a>
             {% endif %}
         </div>
     </header>
     
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    
     <main>
         {% block content %}{% endblock %}
     </main>
-
+    
     <footer>
         <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
         <div class="a-footer">
