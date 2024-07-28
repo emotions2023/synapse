@@ -42,26 +42,28 @@ def home():
     return render_template('home.html')
 
 
+
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
-    try:
-        if request.method == 'POST':
-            email = request.form['email']
-            password = request.form['password']
-            print(f"Attempting to log in with email: {email} and password: {password}")
-            user_obj = Users.query.filter_by(email=email, password=password).first()
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        print(f"Attempting to log in with email: {email} and password: {password}")
+
+        user_obj = Users.query.filter_by(email=email, password=password).first()
+        
+        if user_obj:
             print(f"User object found: {user_obj}")
-            if user_obj:
-                login_user(user_obj)
-                return redirect('/createProfile')
-            else:
-                error = '無効なメールアドレスまたはパスワード'
-                return render_template('login.html', error=error)
-        return render_template('login.html')
-    except Exception as e:
-        error = 'サーバーエラーが発生しました: {}'.format(str(e))
-        print(f"Error: {error}")
-        return render_template('login.html', error=error)
+            login_user(user_obj)
+            return redirect('/createProfile')
+        else:
+            error = "Invalid email or password"
+            print(f"Error: {error}")
+            return render_template('login.html', error=error)
+    
+    return render_template('login.html')
+
 
 @routes.route('/logout')
 @login_required

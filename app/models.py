@@ -11,6 +11,9 @@ class Users(db.Model):
     @property
     def is_active(self):
         return True
+    
+    def get_id(self):
+        return self.id
 
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
