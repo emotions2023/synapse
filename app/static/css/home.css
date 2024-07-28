@@ -1,121 +1,3 @@
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Lato', 'Helvetica', 'Arial', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 30px;
-    background-color: #ffffff;
-    color: #000000;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
-.logo img {
-    width: 222px;
-    margin-left: 32px;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    margin-left: 5%;
-    margin-right: 5%;
-    flex-grow: 1; /* Add this to make the search box take available space */
-}
-
-.search-box input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    height: 40px; /* Ensure the input and button have the same height */
-}
-
-.search-box button {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    border-left: none;
-    border-radius: 0 5px 5px 0;
-    background-color: #f8f9fa;
-    font-weight: 700;
-    height: 40px; /* Ensure the input and button have the same height */
-    cursor: pointer;
-}
-
-.header-others {
-    display: flex;
-    justify-content: space-around;
-    width: 25%;
-    align-items: center;
-}
-
-.header-others p {
-    margin-right: 15px;  /* 名前の右側にスペースを追加 */
-}
-
-.header-others a {
-    margin-left: 15px;  /* 各リンクの左側にスペースを追加 */
-}
-
-.hamburger-menu div {
-    width: 35px;
-    height: 3px;
-    background-color: #333;
-    margin: 6px 0;
-}
-
-h1 {
-    font-size: 1.5em;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.featured-articles {
-    margin: 20px auto;
-    max-width: 800px;
-    text-align: center;
-}
-
-.featured-articles h2 {
-    margin-bottom: 10px;
-}
-
-.featured-articles ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.featured-articles li {
-    margin: 5px 0;
-}
-
-footer {
-    width: 95%;
-    margin: 0 auto;
-    margin-bottom: 5%;
-}
-
-.a-footer a {
-    margin-right: 2%;
-    font-size: 0.8em;
-    color: #3366cc;
-    text-decoration: none;
-}
-
-.a-footer a:hover {
-    text-decoration: underline;
-}
-
 .welcome-banner {
     text-align: center;
     margin: 20px 0;
@@ -147,7 +29,6 @@ footer {
     text-decoration: underline;
 }
 
-/* トップ画面の架空の歴史リストのスタイル */
 .history-list {
     width: 80%;
     margin: 50px auto;
@@ -195,7 +76,6 @@ footer {
     margin: 5px 0 0;
 }
 
-/* ユーザー数とページ数のスタイル */
 .register-stats {
     text-align: center;
     margin-top: 30px;
@@ -230,7 +110,6 @@ footer {
     margin: 0;
 }
 
-/* フラッシュメッセージのスタイル */
 .flash-messages {
     position: fixed;
     top: 20px;
@@ -251,4 +130,23 @@ footer {
 
 .flash-message.error {
     background-color: #f44336;
+}
+
+.featured-articles {
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.featured-articles h2 {
+    margin-bottom: 10px;
+}
+
+.featured-articles ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.featured-articles li {
+    margin: 5px 0;
 }
