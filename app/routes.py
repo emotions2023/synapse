@@ -230,14 +230,14 @@ def view_profile(id):
         return "Profile not found", 404
     return render_template('profile.html', profile=profile)
 
-# 記事生成 (追加するエンドポイント)
-@routes.route('/article_selection', methods=['GET', 'POST'])
+# 記事生成 -------------------------------------------------------------
+@routes.route('/articleSelection', methods=['GET', 'POST'])
 @login_required
 def article_selection():
     # エンドポイントの処理
     return render_template('articleSelection.html')
 
-#選り抜き記事-------------------------------------------------------------
+# 選り抜き記事-------------------------------------------------------------
 @routes.route('/featuredArticles', methods=['GET', 'POST'])
 @login_required
 def feature_articles():
@@ -245,14 +245,14 @@ def feature_articles():
     return "featuredArticles"
 
 
-#今日の１枚-------------------------------------------------------------
+# 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
 @login_required
 def daily_images():
     # エンドポイントの処理
     return "dailyImages"
 
-#今日は何の日？-------------------------------------------------------------
+# 今日は何の日？-------------------------------------------------------------
 @routes.route('/dailyEvents', methods=['GET', 'POST'])
 @login_required
 def daily_events():
