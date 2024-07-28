@@ -1,26 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/createProfile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="16x16 32x32 48x48 64x64">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <header>
         <div class="header-left">
             <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo"></a></div>
         </div>
+        <form action="{{ url_for('routes.search') }}" method="GET" class="search-box">
+            <input type="text" name="name" placeholder="パチペディア内を検索">
+            <button type="submit">検索</button>
+        </form>
         <div class="header-others">
             {% if current_user.is_authenticated %}
-                <p>{{ current_user.name }}さん</p>
-                <a href="{{ url_for('routes.create_profile') }}">歴史作成</a>
+                <p>こんにちは、{{ current_user.name }}さん</p>
+                <a href="{{ url_for('routes.create_profile') }}">架空の歴史作成</a>
                 <a href="{{ url_for('routes.logout') }}">ログアウト</a>
             {% else %}
                 <a href="{{ url_for('routes.login') }}">ログイン</a>
