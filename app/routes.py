@@ -233,7 +233,7 @@ def view_profile(id):
 # 記事生成 -------------------------------------------------------------
 @routes.route('/articleSelection', methods=['GET', 'POST'])
 @login_required
-def article_selection():
+def articleSelection():
     # エンドポイントの処理
     return render_template('articleSelection.html')
 
