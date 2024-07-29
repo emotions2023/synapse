@@ -17,6 +17,20 @@ header {
     color: #000000;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+  }
+  
+.logo img {
+    width: 222px;
+    margin-left: 32px;
+}
+
 .header-others {
     display: flex;
     justify-content: space-around;
@@ -49,6 +63,18 @@ form {
 label {
     margin-bottom: 5px;
     font-size: 0.9em;
+}
+
+.search-box {
+    display: block;
+    align-items: center;
+}
+
+.search-box button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #f8f9fa;
+    font-weight: 700;
 }
 
 footer {
