@@ -265,10 +265,109 @@ def articleSelection():
     return render_template('articleSelection.html')
 
 # 記事生成一覧 > 選り抜き記事-------------------------------------------------------------
+# @routes.route('/featuredArticles', methods=['GET', 'POST'])
+# @login_required
+# def featureArticles():
+#     return "featuredArticles"
 @routes.route('/featuredArticles', methods=['GET', 'POST'])
 @login_required
 def featureArticles():
-    return "featuredArticles"
+    if request.method == 'POST':
+        data = request.form
+        title = data.get('title')
+        summary = data.get('summary')
+        genre = data.get('genre')
+
+        if not all([title, summary, genre]):
+            flash('すべてのフィールドを埋めてください。', 'error')
+            return redirect(url_for('routes.featureArticles'))
+
+        user_content = {
+            "title": title,
+            "summary": summary,
+            "genre": genre
+        }
+
+        try:
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "あなたは選り抜き記事を生成するAIです。以下の情報を基に、Wikipediaのような形式で選り抜き記事を1500文字以上3000文字以内で作成してください。"
+                        "出力はjson形式とし、各フィールドには以下の情報を含めてください。"
+                        "- title: タイトル\n"
+                        "- content: 記事内容\n"
+                    )
+                },
+                {"role": "user", "content": json.dumps(user_content)}
+            ]
+
+            # デバッグ: リクエストの内容を出力
+            print("OpenAI API request messages:", json.dumps(messages, ensure_ascii=False, indent=2))
+
+            response = client.chat.completions.create(
+                engine="gpt-4o",
+                prompt=messages,
+                max_tokens=4096,
+            )
+
+        except Exception as e:
+            flash(f'OpenAI API Call Failed: {str(e)}', 'error')
+            return redirect(url_for('routes.featureArticles'))
+
+        try:
+            article_data = response.choices[0].text.strip()
+            article_json = json.loads(article_data)
+
+            # 欠けているキーにデフォルト値を設定
+            required_keys = ["title", "content"]
+            for key in required_keys:
+                if key not in article_json:
+                    article_json[key] = "不明"
+
+        except Exception as e:
+            flash(f'Response Processing Failed: {str(e)}', 'error')
+            return redirect(url_for('routes.featureArticles'))
+        
+        try:
+            # 画像生成のためのプロンプトを作成
+            image_prompt = f"{article_json['title']}: {article_json['content'][:200]}"
+
+            # 画像生成リクエスト
+            image_response = client.images.generate(
+                model="dall-e-3",
+                prompt=image_prompt,
+                size="1024x1024",
+                quality="standard",
+                n=1,
+            )
+
+            image_url = image_response.data[0].url
+            
+        except Exception as e:
+            flash(f'Image Generation Failed: {str(e)}', 'error')
+            return redirect(url_for('routes.featured_articles'))
+
+        try:
+            article = FeaturedArticle(
+                title=article_json["title"],
+                content=article_json["content"],
+                image_url=image_url,
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+                user_id=current_user.id
+            )
+
+            db.session.add(article)
+            db.session.commit()
+
+            flash('記事が正常に作成されました。', 'success')
+            return redirect(f'/featuredArticle/{article.id}')
+        except Exception as e:
+            flash(f'Database Operation Failed: {str(e)}', 'error')
+            return redirect(url_for('routes.featureArticles'))
+
+    return render_template('featureArticles.html')
 
 # 記事生成一覧 > 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
