@@ -271,7 +271,7 @@ def articleSelection():
 #     return "featuredArticles"
 @routes.route('/featuredArticles', methods=['GET', 'POST'])
 @login_required
-def featureArticles():
+def featuredArticles():
     if request.method == 'POST':
         data = request.form
         title = data.get('title')
@@ -280,7 +280,7 @@ def featureArticles():
 
         if not all([title, summary, genre]):
             flash('すべてのフィールドを埋めてください。', 'error')
-            return redirect(url_for('routes.featureArticles'))
+            return redirect(url_for('routes.featuredArticles'))
 
         user_content = {
             "title": title,
@@ -313,7 +313,7 @@ def featureArticles():
 
         except Exception as e:
             flash(f'OpenAI API Call Failed: {str(e)}', 'error')
-            return redirect(url_for('routes.featureArticles'))
+            return redirect(url_for('routes.featuredArticles'))
 
         try:
             article_data = response.choices[0].text.strip()
@@ -327,7 +327,7 @@ def featureArticles():
 
         except Exception as e:
             flash(f'Response Processing Failed: {str(e)}', 'error')
-            return redirect(url_for('routes.featureArticles'))
+            return redirect(url_for('routes.featuredArticles'))
         
         try:
             # 画像生成のためのプロンプトを作成
@@ -346,7 +346,7 @@ def featureArticles():
             
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
-            return redirect(url_for('routes.featured_articles'))
+            return redirect(url_for('routes.featuredArticles'))
 
         try:
             article = FeaturedArticle(
