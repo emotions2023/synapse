@@ -122,6 +122,8 @@
     margin-bottom: 10px;
     border-radius: 5px;
     color: white;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
 }
 
 .flash-message.success {
@@ -149,4 +151,8 @@
 
 .featured-articles li {
     margin: 5px 0;
+}
+
+.flash-message.hide {
+    opacity: 0;
 }

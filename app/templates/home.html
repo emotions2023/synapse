@@ -3,7 +3,7 @@
 {% block title %}トップページ{% endblock %}
 
 {% block content %}
-<div class="history-list">
+<!-- <div class="history-list">
     <h1>架空の歴史リスト</h1>
     <ul>
         {% for history in histories %}
@@ -18,5 +18,32 @@
         </li>
         {% endfor %}
     </ul>
-</div>
+</div> -->
+<main class="max-w-7xl mx-auto p-4">
+    <section class="mb-4">
+        <h1 class="text-2xl font-bold">ウィキペディアへようこそ</h1>
+        <p>ウィキペディアは誰でも編集できるフリー百科事典です</p>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <article class="col-span-2 p-4 border border-gray-300 rounded">
+            <h2 class="text-xl font-bold mb-2">選り抜き記事</h2>
+            <div class="flex">
+                <img src="https://via.placeholder.com/100" alt="Article Image" class="w-24 h-24 mr-4">
+                <p>天皇賞は、日本中央競馬会（JRA）が春・秋に年2回施行する競馬の重賞中央競馬の重賞競走（GI）である。第1回に相当する「帝室御賞典」は1937年（昭和12年）に行われているが、JRAが前身としている「The Emperor's Cup（エンペラーズカップ）」は1905年（明治38年）に起源をもち、日本で施行される競馬の競走では最高の格付けとなるGIの中でも、長い歴史と伝統を持つ競走である。現在は賞金のほか、優勝賞品として皇室から楯が下賜されており、天皇賞を「盾」と通称することもある。</p>
+            </div>
+        </article>
+
+        <aside class="p-4 border border-gray-300 rounded">
+            <h2 class="text-xl font-bold mb-2">今日の一枚</h2>
+            <img src="https://via.placeholder.com/200" alt="Today's Image" class="w-full h-48 object-cover mb-2">
+            <p>鳥取砂丘の第2砂丘列（通称：馬の背）、鳥取県鳥取市</p>
+        </aside>
+    </section>
+
+    <section class="mt-4">
+        <h2 class="text-xl font-bold mb-2">今日は何の日 7月23日</h2>
+        <p>『BEAT EMOTION』は、日本のロックバンドであるBOØWYの5枚目のオリジナル・アルバム。</p>
+    </section>
+</main>
 {% endblock %}
