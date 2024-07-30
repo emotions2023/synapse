@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}選り抜き記事{% endblock %}
+
+{% block content %}
+
+<div class="main">
+    {{ featuredArticles.title }}
+    {{ featuredArticles.content }}
+    <img src="{{ featuredArticles.image_url }}" alt="User Picture" style="width: 100%;">
+    <hr style="width: 95%; margin: 0 auto;">
+</div>
+{% endblock %}

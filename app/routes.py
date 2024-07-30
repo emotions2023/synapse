@@ -316,7 +316,7 @@ def featuredArticles():
             return redirect(url_for('routes.featuredArticles'))
 
         try:
-            article_data = response.choices[0].text.strip()
+            article_data = response['choices'][0]['message']['content']
             article_json = json.loads(article_data)
 
             # 欠けているキーにデフォルト値を設定
@@ -362,7 +362,7 @@ def featuredArticles():
             db.session.commit()
 
             flash('記事が正常に作成されました。', 'success')
-            return redirect(f'/featuredArticle/{article.id}')
+            return redirect(f'/viewFeaturedArticle/{article.id}')
         except Exception as e:
             flash(f'Database Operation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featureArticles'))
