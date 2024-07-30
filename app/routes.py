@@ -367,7 +367,7 @@ def featuredArticles():
             flash(f'Database Operation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featureArticles'))
 
-    return render_template('featureArticles.html')
+    return render_template('featuredArticles.html')
 
 # 記事生成一覧 > 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
