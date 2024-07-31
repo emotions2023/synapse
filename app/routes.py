@@ -370,7 +370,7 @@ def featuredArticles():
             return redirect(f'/viewFeaturedArticles/{article.id}')
         except Exception as e:
             flash(f'Database Operation Failed: {str(e)}', 'error')
-            return redirect(url_for('routes.featureArticles'))
+            return redirect(url_for('routes.featuredArticles'))
     else:
         articles = FeaturedArticle.query.all()
         return render_template('viewFeaturedArticles.html', featuredArticles=articles)
