@@ -315,7 +315,7 @@ def featuredArticles():
             return redirect(url_for('routes.featuredArticles'))
 
         try:
-            article_data = response.choices[0].message.content
+            article_data = response['choices'][0]['message']['content']
             print("DEBUG: Article data received:", article_data) # デバッグログ追加
             article_json = json.loads(article_data)
             print("DEBUG: Article data received:", article_data) 
@@ -346,8 +346,8 @@ def featuredArticles():
             )
 
             print("DEBUG: Image response:", image_response)
-            # image_url = image_response.data[0].url
             image_url = upload_image_to_gcs(image_response['data'][0]['url'])
+            image_url = image_response['data'][0]['url']
             
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
@@ -370,18 +370,9 @@ def featuredArticles():
             return redirect(f'/viewFeaturedArticle/{article.id}')
         except Exception as e:
             flash(f'Database Operation Failed: {str(e)}', 'error')
-            return redirect(url_for('routes.featuredArticles'))
+            return redirect(url_for('routes.featureArticles'))
 
-    return render_template('viewFeaturedArticles.html')
-
-# 記事生成一覧 > 選り抜き記事確認-------------------------------------------------------------
-@routes.route('/article/<int:id>', methods=['GET'])
-def viewFeaturedArticles(id):
-    article = FeaturedArticle.query.get(id)
-    if not article:
-        return "Profile not found", 404
-    return render_template('viewFeaturedArticles.html', article=article)
-
+    return render_template('featuredArticles.html')
 
 # 記事生成一覧 > 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
