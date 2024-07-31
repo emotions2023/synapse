@@ -372,7 +372,8 @@ def featuredArticles():
             flash(f'Database Operation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featureArticles'))
     else:
-        return render_template('viewFeaturedArticles.html')
+        articles = FeaturedArticle.query.all()
+        return render_template('viewFeaturedArticles.html', featuredArticles=articles)
 
 # 記事生成一覧 > 選り抜き記事確認-------------------------------------------------------------
 @routes.route('/article/<int:id>', methods=['GET'])
