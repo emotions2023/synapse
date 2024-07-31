@@ -375,6 +375,16 @@ def featuredArticles():
 
     return render_template('featuredArticles.html')
 
+# 記事生成一覧 > 選り抜き記事詳細-------------------------------------------------------------
+@routes.route('/viewFeaturedArticles/<int:id>', methods=['GET'])
+@login_required
+def viewFeaturedArticles(id):
+    article = featuredArticles.query.get(id)
+    if not article:
+        return "Article not found", 404
+    return render_template('viewFeaturedArticles.html', article=article)
+
+
 # 記事生成一覧 > 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
 @login_required
