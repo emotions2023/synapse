@@ -379,7 +379,7 @@ def featuredArticles():
 @routes.route('/viewFeaturedArticles/<int:id>', methods=['GET'])
 @login_required
 def viewFeaturedArticles(id):
-    article = featuredArticles.query.get(id)
+    article = FeaturedArticle.query.get(id)
     if not article:
         return "Article not found", 404
     return render_template('viewFeaturedArticles.html', article=article)
