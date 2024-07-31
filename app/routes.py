@@ -265,10 +265,6 @@ def articleSelection():
     return render_template('articleSelection.html')
 
 # 記事生成一覧 > 選り抜き記事-------------------------------------------------------------
-# @routes.route('/featuredArticles', methods=['GET', 'POST'])
-# @login_required
-# def featureArticles():
-#     return "featuredArticles"
 @routes.route('/featuredArticles', methods=['GET', 'POST'])
 @login_required
 def featuredArticles():
@@ -306,9 +302,9 @@ def featuredArticles():
             print("OpenAI API request messages:", json.dumps(messages, ensure_ascii=False, indent=2))
 
             response = client.chat.completions.create(
-                engine="gpt-4o",
-                prompt=messages,
-                max_tokens=4096,
+                model="gpt-3.5-turbo",
+                messages=messages,
+                max_tokens=2048
             )
 
         except Exception as e:
@@ -316,7 +312,7 @@ def featuredArticles():
             return redirect(url_for('routes.featuredArticles'))
 
         try:
-            article_data = response['choices'][0]['message']['content']
+            article_data = response['choices'][0].message.content
             article_json = json.loads(article_data)
 
             # 欠けているキーにデフォルト値を設定
