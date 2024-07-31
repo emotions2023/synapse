@@ -346,7 +346,7 @@ def featuredArticles():
             )
 
             print("DEBUG: Image response:", image_response)
-            image_url = upload_image_to_gcs(image_response['data'][0]['url'])
+            image_url = image_response['data'][0]['url']
             
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
