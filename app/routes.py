@@ -283,6 +283,8 @@ def featuredArticles():
             "summary": summary,
             "genre": genre
         }
+        
+        print("DEBUG: User content:", user_content)
 
         try:
             messages = [
@@ -298,14 +300,15 @@ def featuredArticles():
                 {"role": "user", "content": json.dumps(user_content)}
             ]
 
-            # デバッグ: リクエストの内容を出力
             print("OpenAI API request messages:", json.dumps(messages, ensure_ascii=False, indent=2))
-
+       
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
                 max_tokens=2048
             )
+            
+            print("DEBUG: OpenAI API response:", response)
 
         except Exception as e:
             flash(f'OpenAI API Call Failed: {str(e)}', 'error')
@@ -314,12 +317,14 @@ def featuredArticles():
         try:
             article_data = response['choices'][0].message.content
             article_json = json.loads(article_data)
+            print("DEBUG: Article data received:", article_data) 
 
             # 欠けているキーにデフォルト値を設定
             required_keys = ["title", "content"]
             for key in required_keys:
                 if key not in article_json:
                     article_json[key] = "不明"
+            print("DEBUG: Article JSON after processing:", article_json)
 
         except Exception as e:
             flash(f'Response Processing Failed: {str(e)}', 'error')
@@ -328,7 +333,8 @@ def featuredArticles():
         try:
             # 画像生成のためのプロンプトを作成
             image_prompt = f"{article_json['title']}: {article_json['content'][:200]}"
-
+            print("DEBUG: Image prompt:", image_prompt) 
+            
             # 画像生成リクエスト
             image_response = client.images.generate(
                 model="dall-e-3",
@@ -338,6 +344,7 @@ def featuredArticles():
                 n=1,
             )
 
+            print("DEBUG: Image response:", image_response)
             image_url = image_response.data[0].url
             
         except Exception as e:
