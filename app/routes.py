@@ -40,9 +40,12 @@ def upload_image_to_gcs(base64_image):
 # トップ -----------------------------------------------------------------------
 @routes.route('/')
 def home():
-    histories = Profile.query.filter_by(delete_flag=False).all()
-    return render_template('home.html', histories=histories)
-    # return render_template('home.html')
+    import random
+    # Retrieve all featured articles
+    articles = FeaturedArticle.query.all()
+    # Select a random featured article to display if articles exist
+    featured_article = random.choice(articles) if articles else None
+    return render_template('home.html', featured_article=featured_article)
 
 # ログイン -----------------------------------------------------------------------
 @routes.route('/login', methods=['GET', 'POST'])
