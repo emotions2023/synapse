@@ -347,7 +347,7 @@ def featuredArticles():
 
             print("DEBUG: Image response:", image_response)
             # image_url = image_response.data[0].url
-            image_url = image_response['data'][0]['url']
+            image_url = upload_image_to_gcs(image_response['data'][0]['url'])
             
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
@@ -372,7 +372,16 @@ def featuredArticles():
             flash(f'Database Operation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featureArticles'))
 
-    return render_template('featuredArticles.html')
+    return render_template('viewFeaturedArticles.html')
+
+# 記事生成一覧 > 選り抜き記事確認-------------------------------------------------------------
+@routes.route('/article/<int:id>', methods=['GET'])
+def viewFeaturedArticles(id):
+    article = FeaturedArticle.query.get(id)
+    if not article:
+        return "Profile not found", 404
+    return render_template('viewFeaturedArticles.html', article=article)
+
 
 # 記事生成一覧 > 今日の１枚-------------------------------------------------------------
 @routes.route('/dailyImages', methods=['GET', 'POST'])
