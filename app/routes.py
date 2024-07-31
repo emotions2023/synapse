@@ -368,7 +368,7 @@ def featuredArticles():
             db.session.commit()
 
             flash('記事が正常に作成されました。', 'success')
-            return redirect(f'/viewFeaturedArticle/{article.id}')
+            return redirect(f'/viewFeaturedArticles/{article.id}')
         except Exception as e:
             flash(f'Database Operation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featureArticles'))
