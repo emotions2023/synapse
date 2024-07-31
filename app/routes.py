@@ -9,6 +9,7 @@ import os
 import base64
 from datetime import datetime
 import psycopg2
+import requests
 
 # Blueprintの設定
 routes = Blueprint('routes', __name__)
@@ -36,6 +37,14 @@ def upload_image_to_gcs(base64_image):
     except Exception as e:
         print(f"Failed to upload image to GCS: {e}")
         return None
+
+def download_image(image_url):
+    response = requests.get(image_url)
+    if response.status_code == 200:
+        return response.content
+    else:
+        raise Exception("Failed to download image")
+
 
 # トップ -----------------------------------------------------------------------
 @routes.route('/')
@@ -350,9 +359,14 @@ def featuredArticles():
 
             print("DEBUG: Image response:", image_response)
             # image_url = image_response['data'][0]['url']
-            image_url = image_response.data[0].url
+            # Download the image from the URL and upload it to GCS
+            try:
+                image_content = download_image(image_response.data[0].url)
+                image_url = upload_image_to_gcs(image_content)
+            except Exception as e:
+                image_url = None
+                print(f"Failed to download or upload image: {e}")
             print("DEBUG: Image_Url:", image_url)
-            
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featuredArticles'))
