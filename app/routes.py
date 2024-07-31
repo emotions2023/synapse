@@ -358,11 +358,21 @@ def featuredArticles():
             )
 
             print("DEBUG: Image response:", image_response)
-            # image_url = image_response['data'][0]['url']
-            # Download the image from the URL and upload it to GCS
+            
             try:
-                image_content = download_image(image_response.data[0].url)
-                image_url = upload_image_to_gcs(image_content)
+                image_url = image_response.data[0].url
+                print(f"Generated Image URL: {image_url}")  # デバッグ用
+                
+                image_data = download_image(image_url)
+                print(f"Downloaded Image Data Length: {len(image_data)}")  # デバッグ用
+                
+                 # ダウンロードした画像を base64 エンコード
+                image_data_base64 = base64.b64encode(image_data).decode('utf-8')
+            
+                 # GCSにアップロード
+                image_url_gcs = upload_image_to_gcs(image_data_base64)
+                print(f"GCS Image URL: {image_url_gcs}")  # デバッグ用
+
             except Exception as e:
                 image_url = None
                 print(f"Failed to download or upload image: {e}")
@@ -375,7 +385,7 @@ def featuredArticles():
             article = FeaturedArticle(
                 title=article_json["title"],
                 content=article_json["content"],
-                image_url=image_url,
+                image_url=image_url_gcs,
                 created_at=datetime.now(),
                 updated_at=datetime.now(),
                 user_id=current_user.id
