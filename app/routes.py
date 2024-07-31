@@ -367,20 +367,19 @@ def featuredArticles():
             db.session.commit()
 
             flash('記事が正常に作成されました。', 'success')
-            return redirect(f'/viewFeaturedArticles/{article.id}')
+            return redirect(f'/viewFeaturedArticle/{article.id}')
         except Exception as e:
             flash(f'Database Operation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featuredArticles'))
-    else:
-        articles = FeaturedArticle.query.all()
-        return render_template('viewFeaturedArticles.html', featuredArticles=articles)
+
+    return render_template('viewFeaturedArticles.html')
 
 # 記事生成一覧 > 選り抜き記事確認-------------------------------------------------------------
 @routes.route('/article/<int:id>', methods=['GET'])
 def viewFeaturedArticles(id):
     article = FeaturedArticle.query.get(id)
     if not article:
-        return "FeaturedArticle not found", 404
+        return "Profile not found", 404
     return render_template('viewFeaturedArticles.html', article=article)
 
 
