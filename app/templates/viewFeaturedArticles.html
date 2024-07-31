@@ -3,8 +3,8 @@
 {% block title %}選り抜き記事{% endblock %}
 
 {% block content %}
-<h1>Featured Articles</h1>
-<div>
+<div class="article-container">
+    <h1>選り抜き記事</h1>
     <h2>{{ article.title }}</h2>
     <p>{{ article.content }}</p>
     <img src="{{ article.image_url }}" alt="{{ article.title }}">
