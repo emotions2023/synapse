@@ -346,7 +346,9 @@ def featuredArticles():
             )
 
             print("DEBUG: Image response:", image_response)
-            image_url = image_response['data'][0]['url']
+            # image_url = image_response['data'][0]['url']
+            image_url = image_response.data[0].url
+            print("DEBUG: Image_Url:", image_url)
             
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
