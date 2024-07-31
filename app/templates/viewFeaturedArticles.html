@@ -4,11 +4,9 @@
 
 {% block content %}
 <h1>Featured Articles</h1>
-{% for article in featuredArticles %}
-    <div>
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.content }}</p>
-        <img src="{{ article.image_url }}" alt="{{ article.title }}">
-    </div>
-{% endfor %}
+<div>
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+    <img src="{{ article.image_url }}" alt="{{ article.title }}">
+</div>
 {% endblock %}
