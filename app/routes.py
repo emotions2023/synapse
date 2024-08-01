@@ -520,18 +520,17 @@ def viewDailyImages(id):
 def dailyEvents():
     if request.method == 'POST':
         data = request.form
-        era = data.get('era')
+        full_year = request.form.get('full_year')
         date = data.get('date')
         event = data.get('event')
 
-        if not all([era, date, event]):
+        if not all([full_year, date, event]):
             flash('すべてのフィールドを埋めてください。', 'error')
             return redirect(url_for('routes.dailyEvents'))
 
         user_content = {
-            "era": era,
             "date": date,
-            "event":event
+            "event": event
         }
 
         try:
@@ -541,7 +540,6 @@ def dailyEvents():
                     "content": (
                         "あなたは今日は何の日？を生成するAIです。以下の情報を基に、架空の歴史の詳細な説明文をWikipediaのような説明文を生成してください。"
                         "出力はjson形式とし、各フィールドには以下の情報を含めてください。"
-                        "- era: 年代\n"
                         "- date: 日付\n"
                         "- event: 出来事\n"
                     )
@@ -562,7 +560,7 @@ def dailyEvents():
             event_json = json.loads(event_data)
 
             # 欠けているキーにデフォルト値を設定
-            required_keys = ["era", "date", "event"]
+            required_keys = ["date", "event"]
             for key in required_keys:
                 if key not in event_json:
                     event_json[key] = "不明"
@@ -574,7 +572,6 @@ def dailyEvents():
 
         try:
             daily_event = DailyEvent(
-                era=event_json["era"],
                 date=event_json["date"],
                 event=event_json["event"],
                 created_at=datetime.now(),
@@ -593,11 +590,3 @@ def dailyEvents():
 
     return render_template('dailyEvents.html')
 
-# 記事生成一覧 > 今日は何の日詳細-------------------------------------------------------------
-@routes.route('/viewDailyEvents/<int:id>', methods=['GET'])
-@login_required
-def viewDailyEvents(id):
-    daily_event = DailyEvent.query.get(id)
-    if not daily_event:
-        return "Event not found", 404
-    return render_template('viewDailyEvents.html', daily_event=daily_event)

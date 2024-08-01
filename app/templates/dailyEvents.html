@@ -29,6 +29,8 @@
             <label for="event">出来事</label><br>
             <textarea name="event" id="event" required></textarea><br>
         </div>
+        <!-- Hidden input to store the full year -->
+        <input type="hidden" name="full_year" id="full_year">
         <input type="submit" value="作成">
     </form>
 </div>
@@ -58,6 +60,7 @@
         var eraSelect = document.getElementById('era');
         var yearOfCenturySelect = document.getElementById('yearOfCentury');
         var dateInput = document.getElementById('date');
+        var fullYearInput = document.getElementById('full_year');
 
         var selectedEra = parseInt(eraSelect.value);
         var selectedYearOfCentury = parseInt(yearOfCenturySelect.value);
@@ -67,6 +70,7 @@
             var currentDate = new Date(dateInput.value);
             currentDate.setFullYear(year);
             dateInput.value = currentDate.toISOString().split('T')[0];
+            fullYearInput.value = year;  // Update the hidden input with the full year
         }
     }
 </script>
