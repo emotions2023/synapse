@@ -402,7 +402,7 @@ def dailyImages():
 
         if not all([genre, title, summary]):
             flash('すべてのフィールドを埋めてください。', 'error')
-            return redirect(url_for('dailyImages'))
+            return redirect(url_for('routes.dailyImages'))
 
         user_content = {
             "genre": genre,
@@ -430,7 +430,7 @@ def dailyImages():
             )
         except Exception as e:
             flash(f'OpenAI API Call Failed: {str(e)}', 'error')
-            return redirect(url_for('dailyImages'))
+            return redirect(url_for('routes.dailyImages'))
 
         try:
             image_data = response.choices[0].message.content
@@ -445,7 +445,7 @@ def dailyImages():
 
         except Exception as e:
             flash(f'Response Processing Failed: {str(e)}', 'error')
-            return redirect(url_for('dailyImages'))
+            return redirect(url_for('routes.dailyImages'))
 
         try:
             # 画像生成のためのプロンプトを作成
@@ -475,7 +475,7 @@ def dailyImages():
                 print(f"Failed to download or upload image: {e}")
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
-            return redirect(url_for('dailyImages'))
+            return redirect(url_for('routes.dailyImages'))
 
         try:
             daily_image = DailyImage(
@@ -493,7 +493,7 @@ def dailyImages():
             return redirect(f'/viewDailyImages/{daily_image.id}')
         except Exception as e:
             flash(f'Database Operation Failed: {str(e)}', 'error')
-            return redirect(url_for('dailyImages'))
+            return redirect(url_for('routes.dailyImages'))
 
     return render_template('dailyImages.html')
 
