@@ -590,3 +590,11 @@ def dailyEvents():
 
     return render_template('dailyEvents.html')
 
+# 記事生成一覧 > 今日の１枚詳細-------------------------------------------------------------
+@routes.route('/viewDailyEvents/<int:id>', methods=['GET'])
+@login_required
+def viewDailyEvents(id):
+    dailyEvent = DailyEvent.query.get(id)
+    if not dailyEvent:
+        return "Article not found", 404
+    return render_template('viewDailyEvents.html', dailyEvent=dailyEvent)

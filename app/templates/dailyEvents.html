@@ -7,18 +7,12 @@
     <h1>今日は何の日を生成</h1>
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="era">年代</label><br>
-            <select name="era" id="era" onchange="updateYearOfCentury()">
+            <label for="full_year">年代</label><br>
+            <select name="full_year" id="full_year" onchange="updateDate()">
                 <option value="" selected disabled>選択してください</option>
-                {% for era in range(2100, -2000, -100) %}
-                    <option value="{{ era }}">{{ era }}</option>
+                {% for year in range(2100, -2000, -1) %}
+                    <option value="{{ year }}">{{ year }}</option>
                 {% endfor %}
-            </select><br>
-        </div>
-        <div class="form-group">
-            <label for="yearOfCentury">年</label><br>
-            <select name="yearOfCentury" id="yearOfCentury" onchange="updateDate()">
-                <option value="0" selected>00</option>
             </select><br>
         </div>
         <div class="form-group">
@@ -29,48 +23,26 @@
             <label for="event">出来事</label><br>
             <textarea name="event" id="event" required></textarea><br>
         </div>
-        <!-- Hidden input to store the full year -->
-        <input type="hidden" name="full_year" id="full_year">
         <input type="submit" value="作成">
     </form>
 </div>
 
 <script>
-    function updateYearOfCentury() {
-        var eraSelect = document.getElementById('era');
-        var yearOfCenturySelect = document.getElementById('yearOfCentury');
-        var selectedEra = parseInt(eraSelect.value);
-            
-        yearOfCenturySelect.innerHTML = '';
-            
-        for (var i = 0; i < 100; i++) {
-            var year = selectedEra + i;
-            var option = document.createElement('option');
-            option.value = i;
-            option.text = year;
-            yearOfCenturySelect.appendChild(option);
-        }
-
-        // デフォルトで最初の年（selectedEra + 0）を選択する
-        yearOfCenturySelect.value = 0;
-        updateDate();
-    }
-
     function updateDate() {
-        var eraSelect = document.getElementById('era');
-        var yearOfCenturySelect = document.getElementById('yearOfCentury');
+        var fullYearSelect = document.getElementById('full_year');
         var dateInput = document.getElementById('date');
-        var fullYearInput = document.getElementById('full_year');
 
-        var selectedEra = parseInt(eraSelect.value);
-        var selectedYearOfCentury = parseInt(yearOfCenturySelect.value);
+        var selectedYear = parseInt(fullYearSelect.value);
 
-        if (!isNaN(selectedEra) && !isNaN(selectedYearOfCentury)) {
-            var year = selectedEra + selectedYearOfCentury;
+        if (!isNaN(selectedYear)) {
             var currentDate = new Date(dateInput.value);
-            currentDate.setFullYear(year);
+            currentDate.setFullYear(selectedYear);
+            // Adjust the month and day to avoid defaulting to 12/31
+            if (currentDate.getMonth() === 11 && currentDate.getDate() === 31) {
+                currentDate.setMonth(0);
+                currentDate.setDate(1);
+            }
             dateInput.value = currentDate.toISOString().split('T')[0];
-            fullYearInput.value = year;  // Update the hidden input with the full year
         }
     }
 </script>
