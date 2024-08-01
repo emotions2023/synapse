@@ -54,7 +54,13 @@ def home():
     articles = FeaturedArticle.query.all()
     # Select a random featured article to display if articles exist
     featured_article = random.choice(articles) if articles else None
-    return render_template('home.html', featured_article=featured_article)
+
+    # Retrieve all daily images
+    daily_images = DailyImage.query.all()
+    # Select a random daily image to display if images exist
+    daily_image = random.choice(daily_images) if daily_images else None
+
+    return render_template('home.html', featured_article=featured_article, daily_image=daily_image)
 
 # ログイン -----------------------------------------------------------------------
 @routes.route('/login', methods=['GET', 'POST'])

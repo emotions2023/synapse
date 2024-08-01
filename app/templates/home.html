@@ -20,8 +20,12 @@
 
         <aside class="p-4 border border-gray-300 rounded">
             <h2 class="text-xl font-bold mb-2">今日の一枚</h2>
-            <img src="https://via.placeholder.com/200" alt="Today's Image" class="w-full h-48 object-cover mb-2">
-            <p>鳥取砂丘の第2砂丘列（通称：馬の背）、鳥取県鳥取市</p>
+            {% if daily_image %}
+                <img src="{{ daily_image.image_url }}" alt="{{ daily_image.description }}" class="w-full h-48 object-cover mb-2">
+                <p>{{ daily_image.description }}</p>
+            {% else %}
+                <p>今日の画像はまだありません。</p>
+            {% endif %}
         </aside>
     </section>
 
