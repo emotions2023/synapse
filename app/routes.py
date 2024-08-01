@@ -295,9 +295,6 @@ def featuredArticles():
             "summary": summary,
             "genre": genre
         }
-        
-        print("DEBUG: User content:", user_content)
-
         try:
             messages = [
                 {
@@ -311,26 +308,18 @@ def featuredArticles():
                 },
                 {"role": "user", "content": json.dumps(user_content)}
             ]
-
-            print("OpenAI API request messages:", json.dumps(messages, ensure_ascii=False, indent=2))
-       
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
                 max_tokens=2048
             )
-            
-            print("DEBUG: OpenAI API response:", response)
-
         except Exception as e:
             flash(f'OpenAI API Call Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featuredArticles'))
 
         try:
             article_data = response.choices[0].message.content
-            print("DEBUG: Article data received:", article_data) # デバッグログ追加
-            article_json = json.loads(article_data)
-            print("DEBUG: Article data received:", article_data) 
+            article_json = json.loads(article_data) 
 
             # 欠けているキーにデフォルト値を設定
             required_keys = ["title", "content"]
@@ -346,37 +335,26 @@ def featuredArticles():
         try:
             # 画像生成のためのプロンプトを作成
             image_prompt = f"{article_json['title']}: {article_json['content'][:200]}"
-            print("DEBUG: Image prompt:", image_prompt) 
             
             # 画像生成リクエスト
             image_response = client.images.generate(
                 model="dall-e-3",
                 prompt=image_prompt,
-                size="1024x1024",
+                size="512x512",
                 quality="standard",
                 n=1,
             )
 
-            print("DEBUG: Image response:", image_response)
-            
             try:
                 image_url = image_response.data[0].url
-                print(f"Generated Image URL: {image_url}")  # デバッグ用
-                
                 image_data = download_image(image_url)
-                print(f"Downloaded Image Data Length: {len(image_data)}")  # デバッグ用
                 
-                 # ダウンロードした画像を base64 エンコード
                 image_data_base64 = base64.b64encode(image_data).decode('utf-8')
-            
-                 # GCSにアップロード
                 image_url_gcs = upload_image_to_gcs(image_data_base64)
-                print(f"GCS Image URL: {image_url_gcs}")  # デバッグ用
-
+            
             except Exception as e:
                 image_url = None
                 print(f"Failed to download or upload image: {e}")
-            print("DEBUG: Image_Url:", image_url)
         except Exception as e:
             flash(f'Image Generation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.featuredArticles'))
@@ -416,7 +394,119 @@ def viewFeaturedArticles(id):
 @routes.route('/dailyImages', methods=['GET', 'POST'])
 @login_required
 def dailyImages():
-    return "dailyImages"
+    if request.method == 'POST':
+        data = request.form
+        genre = data.get('genre')
+        title = data.get('title')
+        summary = data.get('summary')
+
+        if not all([genre, title, summary]):
+            flash('すべてのフィールドを埋めてください。', 'error')
+            return redirect(url_for('dailyImages'))
+
+        user_content = {
+            "genre": genre,
+            "title": title,
+            "summary": summary
+        }
+
+        try:
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "あなたは今日の一枚を生成するAIです。以下の情報を基に、画像と説明文を生成してください。"
+                        "出力はjson形式とし、各フィールドには以下の情報を含めてください。"
+                        "- title: タイトル\n"
+                        "- description: 説明文\n"
+                    )
+                },
+                {"role": "user", "content": json.dumps(user_content)}
+            ]
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=messages,
+                max_tokens=2048
+            )
+        except Exception as e:
+            flash(f'OpenAI API Call Failed: {str(e)}', 'error')
+            return redirect(url_for('dailyImages'))
+
+        try:
+            image_data = response.choices[0].message.content
+            image_json = json.loads(image_data)
+
+            # 欠けているキーにデフォルト値を設定
+            required_keys = ["title", "description"]
+            for key in required_keys:
+                if key not in image_json:
+                    image_json[key] = "不明"
+            print("DEBUG: Image JSON after processing:", image_json)
+
+        except Exception as e:
+            flash(f'Response Processing Failed: {str(e)}', 'error')
+            return redirect(url_for('dailyImages'))
+
+        try:
+            # 画像生成のためのプロンプトを作成
+            image_prompt = (
+                f"A highly detailed, realistic image captured with a DSLR camera. The image should depict {image_json['title']} "
+                f"with {image_json['description'][:200]}. The photograph should have rich colors, sharp focus, and natural lighting."
+            )
+
+            # 画像生成リクエスト
+            image_response = client.images.generate(
+                model="dall-e-3",
+                prompt=image_prompt,
+                size="512x288",
+                quality="standard",
+                n=1,
+            )
+
+            try:
+                image_url = image_response.data[0].url
+                image_data = download_image(image_url)
+                
+                image_data_base64 = base64.b64encode(image_data).decode('utf-8')
+                image_url_gcs = upload_image_to_gcs(image_data_base64)
+            
+            except Exception as e:
+                image_url = None
+                print(f"Failed to download or upload image: {e}")
+        except Exception as e:
+            flash(f'Image Generation Failed: {str(e)}', 'error')
+            return redirect(url_for('dailyImages'))
+
+        try:
+            daily_image = DailyImage(
+                description=image_json["description"],
+                image_url=image_url_gcs,
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+                user_id=current_user.id
+            )
+
+            db.session.add(daily_image)
+            db.session.commit()
+
+            flash('今日の一枚が正常に作成されました。', 'success')
+            return redirect(f'/viewDailyImages/{daily_image.id}')
+        except Exception as e:
+            flash(f'Database Operation Failed: {str(e)}', 'error')
+            return redirect(url_for('dailyImages'))
+
+    return render_template('dailyImages.html')
+
+
+# 記事生成一覧 > 今日の１枚詳細-------------------------------------------------------------
+@routes.route('/viewDailyImages/<int:id>', methods=['GET'])
+@login_required
+def viewDailyImages(id):
+    dailyImage = DailyImage.query.get(id)
+    if not dailyImage:
+        return "Article not found", 404
+    return render_template('viewDailyImages.html', dailyImage=dailyImage)
+
 
 # 記事生成一覧 > 今日は何の日？-------------------------------------------------------------
 @routes.route('/dailyEvents', methods=['GET', 'POST'])

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}今日の一枚{% endblock %}
+
+{% block content %}
+<div class="article-container">
+    <h1>今日の一枚</h1>
+    <h2>{{ dailyImage.title }}</h2>
+    <p>{{ dailyImage.content }}</p>
+    <img src="{{ dailyImage.image_url }}" alt="{{ dailyImage.title }}">
+</div>
+{% endblock %}
