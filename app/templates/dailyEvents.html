@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
             <label for="yearOfCentury">年</label><br>
-            <select name="yearOfCentury" id="yearOfCentury">
+            <select name="yearOfCentury" id="yearOfCentury" onchange="updateDate()">
                 <option value="0" selected>00</option>
             </select><br>
         </div>
@@ -51,6 +51,23 @@
 
         // デフォルトで最初の年（selectedEra + 0）を選択する
         yearOfCenturySelect.value = 0;
+        updateDate();
+    }
+
+    function updateDate() {
+        var eraSelect = document.getElementById('era');
+        var yearOfCenturySelect = document.getElementById('yearOfCentury');
+        var dateInput = document.getElementById('date');
+
+        var selectedEra = parseInt(eraSelect.value);
+        var selectedYearOfCentury = parseInt(yearOfCenturySelect.value);
+
+        if (!isNaN(selectedEra) && !isNaN(selectedYearOfCentury)) {
+            var year = selectedEra + selectedYearOfCentury;
+            var currentDate = new Date(dateInput.value);
+            currentDate.setFullYear(year);
+            dateInput.value = currentDate.toISOString().split('T')[0];
+        }
     }
 </script>
 {% endblock %}
