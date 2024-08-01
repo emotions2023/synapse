@@ -340,7 +340,7 @@ def featuredArticles():
             image_response = client.images.generate(
                 model="dall-e-3",
                 prompt=image_prompt,
-                size="512x512",
+                size="1024x1024",
                 quality="standard",
                 n=1,
             )
@@ -458,7 +458,7 @@ def dailyImages():
             image_response = client.images.generate(
                 model="dall-e-3",
                 prompt=image_prompt,
-                size="512x512",
+                size="1024x1024",
                 quality="standard",
                 n=1,
             )
