@@ -458,7 +458,7 @@ def dailyImages():
             image_response = client.images.generate(
                 model="dall-e-3",
                 prompt=image_prompt,
-                size="512x288",
+                size="512x512",
                 quality="standard",
                 n=1,
             )
