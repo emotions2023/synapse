@@ -518,4 +518,86 @@ def viewDailyImages(id):
 @routes.route('/dailyEvents', methods=['GET', 'POST'])
 @login_required
 def dailyEvents():
-    return "dailyEvents"
+    if request.method == 'POST':
+        data = request.form
+        era = data.get('era')
+        date = data.get('date')
+        event = data.get('event')
+
+        if not all([era, date, event]):
+            flash('すべてのフィールドを埋めてください。', 'error')
+            return redirect(url_for('routes.dailyEvents'))
+
+        user_content = {
+            "era": era,
+            "date": date,
+            "event":event
+        }
+
+        try:
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "あなたは今日は何の日？を生成するAIです。以下の情報を基に、架空の歴史の詳細な説明文をWikipediaのような説明文を生成してください。"
+                        "出力はjson形式とし、各フィールドには以下の情報を含めてください。"
+                        "- era: 年代\n"
+                        "- date: 日付\n"
+                        "- event: 出来事\n"
+                    )
+                },
+                {"role": "user", "content": json.dumps(user_content)}
+            ]
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=messages,
+                max_tokens=2048
+            )
+        except Exception as e:
+            flash(f'OpenAI API Call Failed: {str(e)}', 'error')
+            return redirect(url_for('routes.dailyEvents'))
+
+        try:
+            event_data = response.choices[0].message.content
+            event_json = json.loads(event_data)
+
+            # 欠けているキーにデフォルト値を設定
+            required_keys = ["era", "date", "event"]
+            for key in required_keys:
+                if key not in event_json:
+                    event_json[key] = "不明"
+            print("DEBUG: Event JSON after processing:", event_json)
+
+        except Exception as e:
+            flash(f'Response Processing Failed: {str(e)}', 'error')
+            return redirect(url_for('routes.dailyEvents'))
+
+        try:
+            daily_event = DailyEvent(
+                era=event_json["era"],
+                date=event_json["date"],
+                event=event_json["event"],
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+                user_id=current_user.id
+            )
+
+            db.session.add(daily_event)
+            db.session.commit()
+
+            flash('今日は何の日が正常に作成されました。', 'success')
+            return redirect(f'/viewDailyEvents/{daily_event.id}')
+        except Exception as e:
+            flash(f'Database Operation Failed: {str(e)}', 'error')
+            return redirect(url_for('routes.dailyEvents'))
+
+    return render_template('dailyEvents.html')
+
+# 記事生成一覧 > 今日は何の日詳細-------------------------------------------------------------
+@routes.route('/viewDailyEvents/<int:id>', methods=['GET'])
+@login_required
+def viewDailyEvents(id):
+    daily_event = DailyEvent.query.get(id)
+    if not daily_event:
+        return "Event not found", 404
+    return render_template('viewDailyEvents.html', daily_event=daily_event)

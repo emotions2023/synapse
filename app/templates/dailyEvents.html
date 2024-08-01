@@ -3,5 +3,54 @@
 {% block title %}今日は何の日生成{% endblock %}
 
 {% block content %}
-<h1>今日は何の日</h1>
+<div class="create-featured-article-container">
+    <h1>今日は何の日を生成</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="era">年代</label><br>
+            <select name="era" id="era" onchange="updateYearOfCentury()">
+                <option value="" selected disabled>選択してください</option>
+                {% for era in range(2100, -2000, -100) %}
+                    <option value="{{ era }}">{{ era }}</option>
+                {% endfor %}
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label for="yearOfCentury">年</label><br>
+            <select name="yearOfCentury" id="yearOfCentury">
+                <option value="0" selected>00</option>
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label for="date">日付</label><br>
+            <input type="date" name="date" id="date" required><br>
+        </div>
+        <div class="form-group">
+            <label for="event">出来事</label><br>
+            <textarea name="event" id="event" required></textarea><br>
+        </div>
+        <input type="submit" value="作成">
+    </form>
+</div>
+
+<script>
+    function updateYearOfCentury() {
+        var eraSelect = document.getElementById('era');
+        var yearOfCenturySelect = document.getElementById('yearOfCentury');
+        var selectedEra = parseInt(eraSelect.value);
+            
+        yearOfCenturySelect.innerHTML = '';
+            
+        for (var i = 0; i < 100; i++) {
+            var year = selectedEra + i;
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = year;
+            yearOfCenturySelect.appendChild(option);
+        }
+
+        // デフォルトで最初の年（selectedEra + 0）を選択する
+        yearOfCenturySelect.value = 0;
+    }
+</script>
 {% endblock %}

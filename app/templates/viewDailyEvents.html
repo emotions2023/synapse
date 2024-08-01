@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}今日は何の日詳細{% endblock %}
+
+{% block content %}
+<div class="view-daily-event-container">
+    <h1>{{ daily_event.event }}</h1>
+    <p><strong>年代:</strong> {{ daily_event.era }}</p>
+    <p><strong>日付:</strong> {{ daily_event.date }}</p>
+    <p><strong>説明:</strong> {{ daily_event.event }}</p>
+</div>
+{% endblock %}
