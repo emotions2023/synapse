@@ -513,8 +513,6 @@ def viewDailyImages(id):
         return "Article not found", 404
     return render_template('viewDailyImages.html', dailyImage=dailyImage)
 
-#routes.py
-
 # 記事生成一覧 > 今日は何の日？-------------------------------------------------------------
 @routes.route('/dailyEvents', methods=['GET', 'POST'])
 @login_required
@@ -564,7 +562,7 @@ def dailyEvents():
             return redirect(url_for('routes.dailyEvents'))
 
         try:
-            event_data = response.choices[0].message.content
+            event_data = response.choices[0].message['content']
             event_json = json.loads(event_data)
 
             # 欠けているキーにデフォルト値を設定
@@ -602,7 +600,7 @@ def dailyEvents():
 @routes.route('/viewDailyEvents/<int:id>', methods=['GET'])
 @login_required
 def viewDailyEvents(id):
-    dailyEvent = DailyEvent.query.get(id)
-    if not dailyEvent:
-        return "Article not found", 404
-    return render_template('viewDailyEvents.html', dailyEvent=dailyEvent)
+    daily_event = DailyEvent.query.get(id)
+    if not daily_event:
+        return "Event not found", 404
+    return render_template('viewDailyEvents.html', daily_event=daily_event)
