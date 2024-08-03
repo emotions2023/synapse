@@ -10,6 +10,7 @@ import base64
 from datetime import datetime
 import psycopg2
 import requests
+import logging
 
 # Blueprintの設定
 routes = Blueprint('routes', __name__)
@@ -514,8 +515,6 @@ def viewDailyImages(id):
     return render_template('viewDailyImages.html', dailyImage=dailyImage)
 
 # 記事生成一覧 > 今日は何の日？-------------------------------------------------------------
-import logging
-
 # 記事生成一覧 > 今日は何の日？-------------------------------------------------------------
 @routes.route('/dailyEvents', methods=['GET', 'POST'])
 @login_required
@@ -565,11 +564,12 @@ def dailyEvents():
             )
             logging.debug("OpenAI API response: %s", response)
         except Exception as e:
+            logging.error(f'OpenAI API Call Failed: {str(e)}')
             flash(f'OpenAI API Call Failed: {str(e)}', 'error')
             return redirect(url_for('routes.dailyEvents'))
 
         try:
-            event_data = response.choices[0].message.content
+            event_data = response.choices[0].message['content']
             event_json = json.loads(event_data)
 
             # 欠けているキーにデフォルト値を設定
@@ -581,6 +581,7 @@ def dailyEvents():
             logging.debug("DEBUG: Event JSON after processing: %s", event_json)
 
         except Exception as e:
+            logging.error(f'Response Processing Failed: {str(e)}')
             flash(f'Response Processing Failed: {str(e)}', 'error')
             return redirect(url_for('routes.dailyEvents'))
 
@@ -599,6 +600,7 @@ def dailyEvents():
             flash('今日は何の日が正常に作成されました。', 'success')
             return redirect(f'/viewDailyEvents/{daily_event.id}')
         except Exception as e:
+            logging.error(f'Database Operation Failed: {str(e)}')
             flash(f'Database Operation Failed: {str(e)}', 'error')
             return redirect(url_for('routes.dailyEvents'))
 
