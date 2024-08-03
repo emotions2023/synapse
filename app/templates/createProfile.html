@@ -41,9 +41,11 @@
     </form>
 </div>
 
-<!-- ローディング画面 -->
-<div id="loading" style="display: none;">
-    <p>処理中です。少々お待ちください...</p>
+<!-- ローディングメッセージ -->
+<div id="loading" class="loading-overlay">
+    <div class="loading-message">
+        処理中です。少々お待ちください...
+    </div>
 </div>
 
 <script>
@@ -71,7 +73,7 @@
         e.target.querySelector('input[type="submit"]').disabled = true;
 
         // ローディング画面を表示
-        document.getElementById('loading').style.display = 'block';
+        document.getElementById('loading').style.display = 'flex';
     });
 </script>
 {% endblock %}
