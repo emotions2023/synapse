@@ -1,11 +1,18 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Lato', 'Helvetica', 'Arial', sans-serif;
     background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
     max-width: 100vw;
     overflow-x: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    flex: 1;
 }
 
 header {
@@ -81,6 +88,10 @@ footer {
     width: 95%;
     margin: 0 auto;
     margin-bottom: 5%;
+    background-color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .a-footer a {

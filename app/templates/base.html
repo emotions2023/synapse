@@ -16,8 +16,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <header>
-        <div class="header-left">
+    <div class="wrapper">
+
+        <header>
+            <div class="header-left">
             <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo"></a></div>
         </div>
         <form action="{{ url_for('routes.search') }}" method="GET" class="search-box">
@@ -50,6 +52,7 @@
         {% block content %}{% endblock %}
     </main>
     
+    </div>
     <footer>
         <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>
         <div class="a-footer">
