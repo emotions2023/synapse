@@ -558,7 +558,7 @@ def dailyEvents():
                 {"role": "user", "content": json.dumps(user_content)}
             ]
             print("DEBUG: OpenAI API request messages:", json.dumps(messages, ensure_ascii=False, indent=2))
-            response = client.chat_completions.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
                 max_tokens=2048
