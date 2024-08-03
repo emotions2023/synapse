@@ -55,19 +55,17 @@
         updateFullYear();
     }
 
+    document.getElementById('yearOfCentury').addEventListener('change', updateFullYear);
+
     function updateFullYear() {
         var century = document.getElementById('century').value;
         var yearOfCentury = document.getElementById('yearOfCentury').value;
         var fullYear = parseInt(century) + parseInt(yearOfCentury);
         document.getElementById('full_year').value = fullYear;
 
-        // カレンダーの日付フィールドを更新
+        // 1月1日の日付を設定する
         var dateInput = document.getElementById('date');
-        var currentDate = new Date(dateInput.value);
-        currentDate.setFullYear(fullYear);
-        dateInput.value = currentDate.toISOString().split('T')[0];
+        dateInput.value = `${fullYear}-01-01`;
     }
-
-    document.getElementById('yearOfCentury').addEventListener('change', updateFullYear);
 </script>
 {% endblock %}
