@@ -5,7 +5,7 @@
 {% block content %}
 <div class="create-profile-container">
     <h1>架空の歴史を作成</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <form id="create-profile-form" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">名前</label><br>
             <input type="text" name="name" id="name"><br>
@@ -41,6 +41,10 @@
     </form>
 </div>
 
+<!-- ローディング画面 -->
+<div id="loading" style="display: none;">
+    <p>処理中です。少々お待ちください...</p>
+</div>
 
 <script>
     function updateYearOfCentury() {
@@ -61,5 +65,13 @@
         // デフォルトで最初の年（selectedCentury + 0）を選択する
         yearOfCenturySelect.value = 0;
     }
+
+    document.getElementById('create-profile-form').addEventListener('submit', function(e) {
+        // ボタンを無効化
+        e.target.querySelector('input[type="submit"]').disabled = true;
+
+        // ローディング画面を表示
+        document.getElementById('loading').style.display = 'block';
+    });
 </script>
 {% endblock %}
