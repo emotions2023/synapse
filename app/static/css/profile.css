@@ -106,27 +106,6 @@ ul {
   margin-top: 0;
 }
 
-.footer {
-  background-color: #000;
-  color: #fff;
-  padding: 10px 30px;
-  text-align: center;
-}
-
-.footer p {
-  font-size: 0.8em;
-}
-
-.footer a {
-  color: #fff;
-  margin: 0 5px;
-  text-decoration: none;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
-
 h1#name, h3 {
   font-family: 'Roboto', Arial, sans-serif;
   font-weight: 100;
