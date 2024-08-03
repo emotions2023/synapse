@@ -7,12 +7,18 @@
     <h1>今日は何の日を生成</h1>
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="full_year">年代</label><br>
-            <select name="full_year" id="full_year" onchange="updateDate()">
+            <label for="century">年代</label><br>
+            <select name="century" id="century" onchange="updateYearOfCentury()">
                 <option value="" selected disabled>選択してください</option>
-                {% for year in range(2100, -2000, -1) %}
-                    <option value="{{ year }}">{{ year }}</option>
+                {% for century in range(0, 2100, 100) %}
+                    <option value="{{ century }}">{{ century }}</option>
                 {% endfor %}
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label for="yearOfCentury">年</label><br>
+            <select name="yearOfCentury" id="yearOfCentury">
+                <option value="0" selected>00</option>
             </select><br>
         </div>
         <div class="form-group">
@@ -23,27 +29,39 @@
             <label for="event">出来事</label><br>
             <textarea name="event" id="event" required></textarea><br>
         </div>
+        <input type="hidden" name="full_year" id="full_year">
         <input type="submit" value="作成">
     </form>
 </div>
 
 <script>
-    function updateDate() {
-        var fullYearSelect = document.getElementById('full_year');
-        var dateInput = document.getElementById('date');
-
-        var selectedYear = parseInt(fullYearSelect.value);
-
-        if (!isNaN(selectedYear)) {
-            var currentDate = new Date(dateInput.value);
-            currentDate.setFullYear(selectedYear);
-            // Adjust the month and day to avoid defaulting to 12/31
-            if (currentDate.getMonth() === 11 && currentDate.getDate() === 31) {
-                currentDate.setMonth(0);
-                currentDate.setDate(1);
-            }
-            dateInput.value = currentDate.toISOString().split('T')[0];
+    function updateYearOfCentury() {
+        var centurySelect = document.getElementById('century');
+        var yearOfCenturySelect = document.getElementById('yearOfCentury');
+        var selectedCentury = parseInt(centurySelect.value);
+            
+        yearOfCenturySelect.innerHTML = '';
+            
+        for (var i = 0; i < 100; i++) {
+            var year = selectedCentury + i;
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = year;
+            yearOfCenturySelect.appendChild(option);
         }
+
+        // デフォルトで最初の年（selectedCentury + 0）を選択する
+        yearOfCenturySelect.value = 0;
+        updateFullYear();
+    }
+
+    document.getElementById('yearOfCentury').addEventListener('change', updateFullYear);
+
+    function updateFullYear() {
+        var century = document.getElementById('century').value;
+        var yearOfCentury = document.getElementById('yearOfCentury').value;
+        var fullYear = parseInt(century) + parseInt(yearOfCentury);
+        document.getElementById('full_year').value = fullYear;
     }
 </script>
 {% endblock %}

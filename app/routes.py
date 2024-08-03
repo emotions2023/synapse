@@ -520,17 +520,20 @@ def viewDailyImages(id):
 def dailyEvents():
     if request.method == 'POST':
         data = request.form
-        full_year = request.form.get('full_year')
         date = data.get('date')
         event = data.get('event')
 
-        if not all([full_year, date, event]):
+        if not all([date, event]):
             flash('すべてのフィールドを埋めてください。', 'error')
             return redirect(url_for('routes.dailyEvents'))
 
+        # 年代を抽出
+        year = date.split('-')[0]
+
         user_content = {
             "date": date,
-            "event": event
+            "event": event,
+            "year": year
         }
 
         try:
@@ -542,6 +545,7 @@ def dailyEvents():
                         "出力はjson形式とし、各フィールドには以下の情報を含めてください。"
                         "- date: 日付\n"
                         "- event: 出来事\n"
+                        "- year: 年\n"
                     )
                 },
                 {"role": "user", "content": json.dumps(user_content)}
@@ -560,7 +564,7 @@ def dailyEvents():
             event_json = json.loads(event_data)
 
             # 欠けているキーにデフォルト値を設定
-            required_keys = ["date", "event"]
+            required_keys = ["date", "event", "year"]
             for key in required_keys:
                 if key not in event_json:
                     event_json[key] = "不明"
@@ -574,6 +578,7 @@ def dailyEvents():
             daily_event = DailyEvent(
                 date=event_json["date"],
                 event=event_json["event"],
+                era=event_json["year"],
                 created_at=datetime.now(),
                 updated_at=datetime.now(),
                 user_id=current_user.id
