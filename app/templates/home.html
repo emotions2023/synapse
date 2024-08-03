@@ -19,9 +19,11 @@
         <article class="col-span-2 p-4 border border-gray-300 rounded">
             <h2 class="text-xl font-bold mb-2">選り抜き記事</h2>
             <div class="flex">
-                <h3 class="text-xl font-bold mb-2">{{ featured_article.title }}</h3>
                 <img src="{{ featured_article.image_url }}" alt="{{ featured_article.title }}" class="w-24 h-24 mr-4">
-                <p>{{ featured_article.content }}</p>
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-bold mb-2">{{ featured_article.title }}</h3>
+                    <p>{{ featured_article.content }}</p>
+                </div>
             </div>
         </article>
 
@@ -36,4 +38,37 @@
         </aside>
     </section>
 </main>
+
+<!-- モーダル -->
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // モーダル要素を取得
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+    
+        // 全ての画像要素を取得し、クリックイベントを追加
+        var zoomableImages = document.querySelectorAll('.zoomable');
+        zoomableImages.forEach((img) => {
+            img.onclick = function(){
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            }
+        });
+    
+        // クローズボタンの要素を取得し、クリックイベントを追加
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+    });
+</script>
+    
 {% endblock %}
