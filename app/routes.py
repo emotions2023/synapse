@@ -513,6 +513,7 @@ def viewDailyImages(id):
         return "Article not found", 404
     return render_template('viewDailyImages.html', dailyImage=dailyImage)
 
+#routes.py
 
 # 記事生成一覧 > 今日は何の日？-------------------------------------------------------------
 @routes.route('/dailyEvents', methods=['GET', 'POST'])
@@ -520,20 +521,23 @@ def viewDailyImages(id):
 def dailyEvents():
     if request.method == 'POST':
         data = request.form
+        century = data.get('century')
+        year_of_century = data.get('yearOfCentury')
         date = data.get('date')
         event = data.get('event')
 
-        if not all([date, event]):
+        if not all([century, year_of_century, date, event]):
             flash('すべてのフィールドを埋めてください。', 'error')
             return redirect(url_for('routes.dailyEvents'))
 
-        # 年代を抽出
-        year = date.split('-')[0]
+        # フル年を計算
+        full_year = int(century) + int(year_of_century)
+        full_date = f"{full_year}-{date[5:]}"
 
         user_content = {
-            "date": date,
+            "date": full_date,
             "event": event,
-            "year": year
+            "year": full_year
         }
 
         try:
@@ -576,9 +580,8 @@ def dailyEvents():
 
         try:
             daily_event = DailyEvent(
-                date=event_json["date"],
-                event=event_json["event"],
-                era=event_json["year"],
+                date=full_date,  # フルの日付を保存
+                event=event_json["event"],  # APIから生成されたイベント内容を保存
                 created_at=datetime.now(),
                 updated_at=datetime.now(),
                 user_id=current_user.id

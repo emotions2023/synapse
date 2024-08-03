@@ -17,19 +17,20 @@
         </div>
         <div class="form-group">
             <label for="yearOfCentury">年</label><br>
-            <select name="yearOfCentury" id="yearOfCentury">
-                <option value="0" selected>00</option>
+            <select name="yearOfCentury" id="yearOfCentury" onchange="updateDate()">
+                <option value="" selected disabled>選択してください</option>
             </select><br>
         </div>
         <div class="form-group">
             <label for="date">日付</label><br>
-            <input type="date" name="date" id="date" required><br>
+            <input type="date" name="date" id="date" required onchange="updateFullDate()"><br>
         </div>
         <div class="form-group">
             <label for="event">出来事</label><br>
             <textarea name="event" id="event" required></textarea><br>
         </div>
         <input type="hidden" name="full_year" id="full_year">
+        <input type="hidden" name="full_date" id="full_date">
         <input type="submit" value="作成">
     </form>
 </div>
@@ -52,16 +53,22 @@
 
         // デフォルトで最初の年（selectedCentury + 0）を選択する
         yearOfCenturySelect.value = 0;
-        updateFullYear();
+        updateFullDate();
     }
 
-    document.getElementById('yearOfCentury').addEventListener('change', updateFullYear);
+    function updateDate() {
+        updateFullDate();
+    }
 
-    function updateFullYear() {
+    function updateFullDate() {
         var century = document.getElementById('century').value;
         var yearOfCentury = document.getElementById('yearOfCentury').value;
+        var date = document.getElementById('date').value;
         var fullYear = parseInt(century) + parseInt(yearOfCentury);
         document.getElementById('full_year').value = fullYear;
+        if (date) {
+            document.getElementById('full_date').value = fullYear + '-' + date.slice(5);
+        }
     }
 </script>
 {% endblock %}
