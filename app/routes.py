@@ -569,7 +569,7 @@ def dailyEvents():
             return redirect(url_for('routes.dailyEvents'))
 
         try:
-            event_data = response.choices[0].message['content']
+            event_data = response.choices[0].message.content
             event_json = json.loads(event_data)
 
             # 欠けているキーにデフォルト値を設定
