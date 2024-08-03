@@ -524,6 +524,8 @@ def dailyEvents():
         date = data.get('date')
         event = data.get('event')
 
+        print("DEBUG: Received data from form:", data)
+
         if not all([century, year_of_century, date, event]):
             flash('すべてのフィールドを埋めてください。', 'error')
             return redirect(url_for('routes.dailyEvents'))
@@ -531,6 +533,9 @@ def dailyEvents():
         # フル年を計算
         full_year = int(century) + int(year_of_century)
         full_date = f"{full_year}-{date[5:]}"
+        
+        print("DEBUG: Calculated full_year:", full_year)
+        print("DEBUG: Calculated full_date:", full_date)
 
         user_content = {
             "date": full_date,
@@ -552,13 +557,16 @@ def dailyEvents():
                 },
                 {"role": "user", "content": json.dumps(user_content)}
             ]
-            response = client.chat.completions.create(
+            print("DEBUG: OpenAI API request messages:", json.dumps(messages, ensure_ascii=False, indent=2))
+            response = client.chat_completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
                 max_tokens=2048
             )
+            print("DEBUG: OpenAI API response:", response)
         except Exception as e:
             flash(f'OpenAI API Call Failed: {str(e)}', 'error')
+            print("ERROR: OpenAI API call failed:", str(e))
             return redirect(url_for('routes.dailyEvents'))
 
         try:
@@ -574,6 +582,7 @@ def dailyEvents():
 
         except Exception as e:
             flash(f'Response Processing Failed: {str(e)}', 'error')
+            print("ERROR: Response processing failed:", str(e))
             return redirect(url_for('routes.dailyEvents'))
 
         try:
@@ -588,10 +597,13 @@ def dailyEvents():
             db.session.add(daily_event)
             db.session.commit()
 
+            print("DEBUG: Daily event successfully created:", daily_event)
+
             flash('今日は何の日が正常に作成されました。', 'success')
             return redirect(f'/viewDailyEvents/{daily_event.id}')
         except Exception as e:
             flash(f'Database Operation Failed: {str(e)}', 'error')
+            print("ERROR: Database operation failed:", str(e))
             return redirect(url_for('routes.dailyEvents'))
 
     return render_template('dailyEvents.html')
