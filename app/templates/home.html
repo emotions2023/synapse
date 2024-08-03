@@ -4,9 +4,13 @@
 
 {% block content %}
 <main class="max-w-7xl mx-auto p-4">
-    <section class="mb-4">
-        <h1 class="text-2xl font-bold">パチペディアへようこそ</h1>
+    <section class="welcome-banner mb-4">
+        <h1>パチペディアへようこそ</h1>
         <p>パチペディアは誰でも生成できるなんとなく百科事典です</p>
+        <div class="article-count">
+            <p>{{ article_count }}本の記事をあなたと</p>
+            <a href="#" class="help-link">Help for Non-Japanese Speakers</a>
+        </div>
     </section>
 
     <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -27,11 +31,6 @@
                 <p>今日の画像はまだありません。</p>
             {% endif %}
         </aside>
-    </section>
-
-    <section class="mt-4">
-        <h2 class="text-xl font-bold mb-2">今日は何の日 7月23日</h2>
-        <p>『BEAT EMOTION』は、日本のロックバンドであるBOØWYの5枚目のオリジナル・アルバム。</p>
     </section>
 </main>
 {% endblock %}

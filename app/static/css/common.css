@@ -24,7 +24,7 @@ header {
 
 .logo {
     font-size: 24px;
-  }
+}
   
 .logo img {
     width: 222px;
@@ -92,4 +92,69 @@ footer {
 
 .a-footer a:hover {
     text-decoration: underline;
+}
+
+.welcome-banner {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f0f8ff;
+    border: 1px solid #d1e7dd;
+    border-radius: 8px;
+}
+
+.welcome-banner h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.welcome-banner p {
+    margin: 5px 0;
+}
+
+.flash-messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.flash-message {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.flash-message.success {
+    background-color: #4CAF50;
+}
+
+.flash-message.error {
+    background-color: #f44336;
+}
+
+.featured-articles {
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.featured-articles h2 {
+    margin-bottom: 10px;
+}
+
+.featured-articles ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.featured-articles li {
+    margin: 5px 0;
+}
+
+.flash-message.hide {
+    opacity: 0;
 }

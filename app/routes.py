@@ -61,7 +61,10 @@ def home():
     # Select a random daily image to display if images exist
     daily_image = random.choice(daily_images) if daily_images else None
 
-    return render_template('home.html', featured_article=featured_article, daily_image=daily_image)
+    # Count total number of articles
+    article_count = db.session.query(FeaturedArticle).count()
+    
+    return render_template('home.html', featured_article=featured_article, daily_image=daily_image, article_count=article_count)
 
 # ログイン -----------------------------------------------------------------------
 @routes.route('/login', methods=['GET', 'POST'])
