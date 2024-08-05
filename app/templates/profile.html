@@ -7,8 +7,8 @@
 <div class="main">
   <aside class="table-of-contents">
     <div class="tab">
-      <p style="font-weight: bold;padding: 3%;padding-right: 10%;">目次</p>
-      <p style="background: #d2d4d4; padding: 3%;">非表示</p>
+      <p class="bold-text">目次</p>
+      <p class="background-highlight">非表示</p>
     </div>
     <hr>
     <ul class="sideber">
@@ -22,14 +22,14 @@
   <div class="content">
     <h1 id="name">{{ profile.name }}</h1>
     <hr>
-    <div class="content-header-bottom" style="display: flex; justify-content: space-between;">
-      <div style="display: flex; justify-content: space-between; width: 100%;">
-        <div style="display: flex;">
-          <p style="margin-bottom: 0; padding-bottom: 1em;border-bottom: 3px solid;">ページ</p>
-          <p style="margin-left: 0.5rem;">ノート</p>
+    <div class="content-header-bottom">
+      <div class="header-buttons">
+        <div class="left-buttons">
+          <p class="active-tab">ページ</p>
+          <p>ノート</p>
         </div>
-        <div style="display: flex; justify-content: space-evenly; width: 30%;">
-          <p style="margin-bottom: 0; border-bottom: 3px solid;">閲覧</p>
+        <div class="right-buttons">
+          <p class="active-tab">閲覧</p>
           <p>編集</p>
           <p>履歴表示</p>
           <p>ツール</p>
@@ -45,65 +45,65 @@
           <div class="section-title">Others</div>
           <p>{{ profile.others }}</p>
         </div>
-        <div style="display: flex; align-items: center;">
-          <h3 style="margin-right: 3%;">生涯</h3>
-          <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
+        <div class="section">
+          <h3>生涯</h3>
+          <p class="edit-link">[ 編集 ]</p>
         </div>
         <hr>
-        <div style="display: flex; align-items: center;">
-          <h4 style="margin-right: 3%;">生い立ち</h4>
-          <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
+        <div class="section">
+          <h4>生い立ち</h4>
+          <p class="edit-link">[ 編集 ]</p>
         </div>
         <p id="upbringing">{{ profile.upbringing }}</p>
-        <div style="display: flex; align-items: center;">
-          <h4 style="margin-right: 3%;">死去</h4>
-          <p style="color: blue;font-size: 0.8em;">[ 編集 ]</p>
+        <div class="section">
+          <h4>死去</h4>
+          <p class="edit-link">[ 編集 ]</p>
         </div>
         <p id="deathDetails">{{ profile.death_details }}</p>
       </div>
       <div class="user-list">
         <h2 class="name">{{ profile.name }}</h2>
-        <div class="user-picture"><img src="{{ profile.image_url }}" alt="User Picture" style="width: 100%;"></div>
+        <div class="user-picture"><img src="{{ profile.image_url }}" alt="User Picture"></div>
         <div class="details">
           <table class="details-list">
             <tr>
-              <td id="td1">誕生</td>
+              <td class="bold-text">誕生</td>
               <td>{{ profile.birth }}</td>
             </tr>
             <tr>
-              <td id="td1">死没</td>
+              <td class="bold-text">死没</td>
               <td>{{ profile.death }}</td>
             </tr>
             <tr>
-              <td id="td1">墓地</td>
+              <td class="bold-text">墓地</td>
               <td>{{ profile.cemetery }}</td>
             </tr>
             <tr>
-              <td id="td1">職業</td>
+              <td class="bold-text">職業</td>
               <td>{{ profile.business }}</td>
             </tr>
             <tr>
-              <td id="td1">言語</td>
+              <td class="bold-text">言語</td>
               <td>{{ profile.language }}</td>
             </tr>
             <tr>
-              <td id="td1">国籍</td>
+              <td class="bold-text">国籍</td>
               <td>{{ profile.nationality }}</td>
             </tr>
             <tr>
-              <td id="td1">教育</td>
+              <td class="bold-text">教育</td>
               <td>{{ profile.education }}</td>
             </tr>
             <tr>
-              <td id="td1">最終学歴</td>
+              <td class="bold-text">最終学歴</td>
               <td>{{ profile.last_education }}</td>
             </tr>
             <tr>
-              <td id="td1">活動期間</td>
+              <td class="bold-text">活動期間</td>
               <td>{{ profile.period_of_activity }}</td>
             </tr>
             <tr>
-              <td id="td1">ジャンル</td>
+              <td class="bold-text">ジャンル</td>
               <td>{{ profile.genre }}</td>
             </tr>
           </table>
@@ -112,6 +112,6 @@
     </div>
   </div>
 </div>
-<hr style="width: 95%; margin: 0 auto;">
+<hr class="main-divider">
 
 {% endblock %}
