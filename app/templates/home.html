@@ -17,7 +17,10 @@
 
     <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <article class="col-span-2 p-4 border border-gray-300 rounded">
-            <h2 class="text-xl font-bold mb-2">選り抜き記事</h2>
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xl font-bold">選り抜き記事</h2>
+                <a href="{{ url_for('routes.featuredArticles') }}" class="create-button">選り抜き記事を作成</a>
+            </div>
             <div class="flex">
                 <img src="{{ featured_article.image_url }}" alt="{{ featured_article.title }}" class="w-24 h-24 mr-4">
                 <div class="flex flex-col">
@@ -28,7 +31,10 @@
         </article>
 
         <aside class="p-4 border border-gray-300 rounded">
-            <h2 class="text-xl font-bold mb-2">今日の一枚</h2>
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xl font-bold">今日の一枚</h2>
+                <a href="{{ url_for('routes.dailyImages') }}" class="create-button">今日の一枚を作成</a>
+            </div>
             {% if daily_image %}
                 <img src="{{ daily_image.image_url }}" alt="{{ daily_image.description }}" class="w-full h-48 object-cover mb-2">
                 <p>{{ daily_image.description }}</p>

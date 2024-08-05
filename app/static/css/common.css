@@ -105,24 +105,6 @@ footer {
     text-decoration: underline;
 }
 
-.welcome-banner {
-    text-align: center;
-    margin: 20px 0;
-    padding: 20px;
-    background-color: #f0f8ff;
-    border: 1px solid #d1e7dd;
-    border-radius: 8px;
-}
-
-.welcome-banner h1 {
-    font-size: 2em;
-    margin: 0;
-}
-
-.welcome-banner p {
-    margin: 5px 0;
-}
-
 .flash-messages {
     position: fixed;
     top: 20px;
@@ -145,25 +127,6 @@ footer {
 
 .flash-message.error {
     background-color: #f44336;
-}
-
-.featured-articles {
-    margin: 20px auto;
-    max-width: 800px;
-    text-align: center;
-}
-
-.featured-articles h2 {
-    margin-bottom: 10px;
-}
-
-.featured-articles ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.featured-articles li {
-    margin: 5px 0;
 }
 
 .flash-message.hide {
@@ -210,7 +173,6 @@ input[type="submit"]:hover {
     background-color: #447ff5;
 }
 
-
 /* ローディング時の画面--------------------- */
 .loading-overlay {
     position: fixed;
@@ -234,4 +196,64 @@ input[type="submit"]:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
     font-size: 1.2em;
+}
+
+/* モーダル--------------------------------- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+.modal-content, #caption {  
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
 }
