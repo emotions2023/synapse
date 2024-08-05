@@ -77,7 +77,7 @@ def login():
         
         if user_obj:
             login_user(user_obj)
-            return redirect('/home')
+            return redirect(url_for('routes.home'))
         else:
             error = "Invalid email or password"
             return render_template('login.html', error=error)
