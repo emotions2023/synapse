@@ -49,6 +49,7 @@ ul {
 .content-header-bottom {
   display: flex;
   justify-content: space-between;
+  margin-top: 2%;
 }
 
 .header-buttons {
@@ -59,6 +60,7 @@ ul {
 
 .left-buttons {
   display: flex;
+  width: 20%;
 }
 
 .right-buttons {
@@ -75,6 +77,7 @@ ul {
 }
 
 .active-tab {
+  padding-right: 3%;
   border-bottom-color: black;
 }
 

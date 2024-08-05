@@ -257,3 +257,30 @@ input[type="submit"]:hover {
     text-decoration: none;
     cursor: pointer;
 }
+
+
+/* common.css に追加または調整 */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: #3366cc;
+    color: #ffffff;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #3366cc;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #447ff5;
+    color: #ffffff;
+}
