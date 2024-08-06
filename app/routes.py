@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template, url_for, flash
+from flask import Blueprint, request, jsonify, render_template_string, redirect, render_template, url_for, flash, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from . import db
 from .models import Users, Profile, FeaturedArticle, DailyImage, DailyEvent
@@ -46,6 +46,15 @@ def download_image(image_url):
     else:
         raise Exception("Failed to download image")
 
+# robots.txt エンドポイント
+@routes.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
+
+# sitemap.xml エンドポイント
+@routes.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
 
 # トップ -----------------------------------------------------------------------
 @routes.route('/')

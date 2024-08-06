@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /login
+Disallow: /signup
+Disallow: /createProfile
+Disallow: /dailyImages
+Disallow: /featuredArticles
+Disallow: /viewDailyImages
+Disallow: /viewFeaturedArticles
+Disallow: /dailyEvents
+Disallow: /viewDailyEvents
+Disallow: /profile
+
+Sitemap: https://synapse-tev2.onrender.com/sitemap.xml
