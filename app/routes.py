@@ -46,12 +46,10 @@ def download_image(image_url):
     else:
         raise Exception("Failed to download image")
 
-# robots.txt エンドポイント
 @routes.route('/robots.txt')
 def robots():
     return send_from_directory('static', 'robots.txt')
 
-# sitemap.xml エンドポイント
 @routes.route('/sitemap.xml')
 def sitemap():
     return send_from_directory('static', 'sitemap.xml')
