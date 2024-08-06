@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -19,41 +18,39 @@
 </head>
 <body>
     <div class="wrapper">
-
         <header>
             <div class="header-left">
-            <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo"></a></div>
-        </div>
-        <form action="{{ url_for('routes.search') }}" method="GET" class="search-box">
-            <input type="text" name="name" placeholder="Pachipedia内を検索">
-            <button type="submit">検索</button>
-        </form>
-        <div class="header-others">
-            {% if current_user.is_authenticated %}
-                <p>{{ current_user.name }}</p>
-                <a href="{{ url_for('routes.create_profile') }}" class="btn btn-primary">歴史生成</a>
-                <a href="{{ url_for('routes.logout') }}">ログアウト</a>
-            {% else %}
-                <a href="{{ url_for('routes.login') }}">ログイン</a>
-                <a href="{{ url_for('routes.signup') }}">新規作成</a>
-            {% endif %}
-        </div>
-    </header>
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="flash-messages">
-          {% for category, message in messages %}
-            <div class="flash-message {{ category }}">{{ message }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-    
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    
+                <div class="logo"><a href="{{ url_for('routes.home') }}"><img src="{{ url_for('static', filename='img/Logo.svg') }}" alt="Logo"></a></div>
+            </div>
+            <form action="{{ url_for('routes.search') }}" method="GET" class="search-box" aria-label="サイト内検索">
+                <input type="text" name="name" placeholder="Pachipedia内を検索" aria-label="検索フィールド">
+                <button type="submit">検索</button>
+            </form>
+            <div class="header-others">
+                {% if current_user.is_authenticated %}
+                    <p>{{ current_user.name }}</p>
+                    <a href="{{ url_for('routes.create_profile') }}" class="btn btn-primary">歴史生成</a>
+                    <a href="{{ url_for('routes.logout') }}">ログアウト</a>
+                {% else %}
+                    <a href="{{ url_for('routes.login') }}">ログイン</a>
+                    <a href="{{ url_for('routes.signup') }}">新規作成</a>
+                {% endif %}
+            </div>
+        </header>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-messages" role="alert" aria-live="assertive">
+              {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        
+        <main>
+            {% block content %}{% endblock %}
+        </main>
     </div>
     <footer>
         <p>テキストはクリエイティブ・コモンズ 表示-継承ライセンスのもとで利用できます。追加の条件が適用される場合があります。詳細については利用規約を参照してください。</p>

@@ -2,32 +2,44 @@
 
 {% block title %}今日は何の日生成{% endblock %}
 
+{% block head %}
+    <meta name="description" content="今日は何の日を生成するページです。架空の歴史イベントを簡単に作成できます。">
+    <meta name="keywords" content="架空の歴史, 今日は何の日, イベント生成, 歴史作成, 歴史イベント">
+    <meta name="author" content="Pachipedia">
+{% endblock %}
+
 {% block content %}
 <div class="create-featured-article-container">
     <h1>今日は何の日を生成</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" aria-labelledby="create-featured-article-form">
         <div class="form-group">
             <label for="century">年代</label><br>
-            <select name="century" id="century" onchange="updateYearOfCentury()">
+            <select name="century" id="century" onchange="updateYearOfCentury()" aria-describedby="century-help">
                 <option value="" selected disabled>選択してください</option>
                 {% for century in range(0, 2100, 100) %}
                     <option value="{{ century }}">{{ century }}</option>
                 {% endfor %}
-            </select><br>
+            </select>
+            <small id="century-help">年代を選択してください。例: 1900</small>
+            <br>
         </div>
         <div class="form-group">
             <label for="yearOfCentury">年</label><br>
-            <select name="yearOfCentury" id="yearOfCentury" onchange="updateFullYear()">
+            <select name="yearOfCentury" id="yearOfCentury" onchange="updateFullYear()" aria-describedby="yearOfCentury-help">
                 <option value="0" selected>00</option>
-            </select><br>
+            </select>
+            <small id="yearOfCentury-help">年を選択してください。例: 1901</small>
+            <br>
         </div>
         <div class="form-group">
             <label for="date">日付</label><br>
-            <input type="date" name="date" id="date" required><br>
+            <input type="date" name="date" id="date" required aria-describedby="date-help"><br>
+            <small id="date-help">日付を選択してください。例: 2023-01-01</small>
         </div>
         <div class="form-group">
             <label for="event">出来事</label><br>
-            <textarea name="event" id="event" required></textarea><br>
+            <textarea name="event" id="event" required aria-describedby="event-help"></textarea><br>
+            <small id="event-help">出来事の詳細を入力してください。</small>
         </div>
         <input type="hidden" name="full_year" id="full_year">
         <input type="submit" value="作成">
